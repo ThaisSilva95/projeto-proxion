@@ -19,7 +19,39 @@ html, body {
   padding: 0;
   margin: 0;
   height: 100%;
-  overflow: hidden;
+ 
   color: black;
+}
+
+.page {
+  width: 794px;
+  height: 1122px;
+  margin: 0 ;
+  padding: 0;
+  background: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-break {
+  page-break-after: always;
+}
+
+#relatorio {
+  width: 794px;              
+  padding: 0;
+  background-color: white;
+  margin: 0 auto;
+}
+
+
+.no-break {
+  page-break-inside: avoid;
+}
+
+@media print {
+  .pagina {
+    page-break-after: always;
+  }
 }
 
