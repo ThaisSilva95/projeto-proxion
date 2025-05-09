@@ -9,7 +9,11 @@ module.exports = {
     "./ComponentesDeJogos/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        colorMainProxion:'#00abad',
+      },
+    },
   },
   plugins: [],
 };
