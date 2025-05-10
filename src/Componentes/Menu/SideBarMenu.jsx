@@ -56,7 +56,7 @@ function SidebarMenu({ menuOpen, setMenuOpen }) {
               </a>
             </li>
             <li>
-              <a href="/" className="hover:text-[#00A7B2]">
+              <a href="/listaequipamentos" className="hover:text-[#00A7B2]">
                 Lista de Equipamentos
               </a>
             </li>
