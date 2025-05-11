@@ -35,7 +35,7 @@ export default function ChangeProfile() {
   };
 
   return (
-    <div className="relative z-10 w-screen flex flex-col h-full flex itens-center">
+    <div className="relative z-10 w-screen flex-col h-full flex itens-center">
       <div className=" flex justify-center items-center gap-x-5 mt-2 mb-5 w-full">
         <div className="w-32 h-32 rounded-full  relative overflow-hidden">
           <Image src={avatar} style={{ objectFit: "cover" }} fill />
