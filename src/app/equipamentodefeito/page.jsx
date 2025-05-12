@@ -3,8 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Logo from "../IMG/LOGOBG.png";
-import EquipmentLine from "../../Componentes/EquipmentLine/EquipmentLine";
-import ClienteModal from "../../Componentes/ModalCompanies/customer-registration";
+import ModalEquipment from "../../Componentes/ModalEquipment/ModalEquipment";
 import EditIcon from "../../app/IMG/edit.svg";
 
 function PageEquipamentos() {
@@ -69,7 +68,7 @@ function PageEquipamentos() {
 
   return (
     <>
-      <div className="relative w-screen h-screen flex flex-col items-center p-4 lg:py-8 gap-3">
+      <div className="relative w-full h-screen flex flex-col items-center p-4 lg:py-8 gap-3">
         <h2 className="text-2xl font-bold mb-3 mt-16 text-[#ffffff]">
           Equipamentos e Defeitos
         </h2>
@@ -152,7 +151,7 @@ function PageEquipamentos() {
         />
       </div>
       {modalOpen && (
-        <ClienteModal
+        <ModalEquipment
           clienteEditando={equipamentoEditando}
           isOpen={modalOpen}
           onSave={handleSalvar}

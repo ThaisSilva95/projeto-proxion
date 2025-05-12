@@ -26,25 +26,31 @@ function ClientLayout({ children }) {
   }, [pathname]);
 
   return (
-    <div className="relative h-screen w-screen">
+    <div className="relative h-screen w-screen overflow-hidden flex">
+      {" "}
+      {/* Adicionado flex para o layout */}
       {/* Background */}
       <Image
         src={BGIMG}
-        className="absolute inset-0 h-full w-full object-cover -z-10"
+        className="absolute inset-0 h-full w-full object-cover -z-50"
       />
       <div className="absolute inset-0 bg-black/50 -z-10" />
       {shouldShowMenu && (
-        <>
-          <SideBarMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-          {!menuOpen && (
-            <button
-              className="absolute top-4 left-4 z-30 md:hidden text-white"
-              onClick={() => setMenuOpen(true)}
-            >
-              <Menu size={28} />
-            </button>
-          )}
-        </>
+        <SideBarMenu
+          menuOpen={menuOpen}
+          setMenuOpen={setMenuOpen}
+          className={`fixed md:relative z-20 h-full bg-[#D9D9D9] text-black p-10 w-64 transition-transform duration-300 ease-in-out ${
+            menuOpen ? "translate-x-0" : "-translate-x-full"
+          } md:translate-x-0`}
+        />
+      )}
+      {shouldShowMenu && !menuOpen && (
+        <button
+          className="absolute top-4 left-4 z-30 md:hidden text-white"
+          onClick={() => setMenuOpen(true)}
+        >
+          <Menu size={28} />
+        </button>
       )}
       {children}
     </div>
