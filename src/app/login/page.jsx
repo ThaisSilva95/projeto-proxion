@@ -58,7 +58,7 @@ function Login() {
   };
 
   return (
-    <div className="text-white">
+    <div className="text-white w-full h-screen flex flex-col items-center justify-center">
       <Image
         src={Logo}
         alt="Error"
