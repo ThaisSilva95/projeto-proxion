@@ -1,134 +1,142 @@
 "use client";
-import Image from 'next/image'
-import BGIMG from '../IMG/BG.png'
-import SideBarMenu from "../../Componentes/Menu/SideBarMenu";
-import { Menu, X } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
-import InputMask from 'react-input-mask';
-import avatar from '../IMG/Avatar.png'
-import Upload from '../IMG/Upload.svg';
-import { set } from 'mongoose';
+import InputMask from "react-input-mask";
+import avatar from "../IMG/Avatar.png";
+import Upload from "../IMG/Upload.svg";
 
 // file script
 export default function ChangeProfile() {
-
-    const [ArquivoName, setArquivoName] = useState('');
-    const [isDragging, setIsDragging] = useState(false);
-    const [arquive, setArquive] = useState(null)
-    const handleArquivo = (e) => {
-    const arquivo = e.target.files[0]
+  const [ArquivoName, setArquivoName] = useState("");
+  const [isDragging, setIsDragging] = useState(false);
+  const handleArquivo = (e) => {
+    const arquivo = e.target.files[0];
     const arquivoNameV = arquivo.name;
     if (arquivoNameV) {
-        setArquivoName(arquivoNameV)
+      setArquivoName(arquivoNameV);
+    } else {
+      setArquivoName("");
     }
-    else {
-        setArquivoName("")
-    }
-}
-const handleOver = (e) => {
+  };
+  const handleOver = (e) => {
     e.preventDefault();
-    setIsDragging(true)
-}
-const handleDrop = (e) => {
+    setIsDragging(true);
+  };
+  const handleDrop = (e) => {
     e.preventDefault();
-    setIsDragging(false)
-    const arquivo = e.dataTransfer.files[0]
+    setIsDragging(false);
+    const arquivo = e.dataTransfer.files[0];
     if (arquivo) {
-        setArquivoName(arquivo.name)
+      setArquivoName(arquivo.name);
     }
-}
-const handleDragLeave = () => {
-    setIsDragging(false)
-}
+  };
+  const handleDragLeave = () => {
+    setIsDragging(false);
+  };
 
-    const [menuOpen, setMenuOpen] = useState(false);
-    return (
-        <div className="relative w-screen h-screen flex bg-gray-100 overflow-hiden">
-            {/* Background */}
-            <Image
-                src={BGIMG}
-                alt="Background"
-                layout="fill"
-                objectFit="cover"
-                priority
-                className="z-0" />
-
-            <div className="absolute inset-0 bg-black/20 z-0"></div>
-
-            <SideBarMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-
-            {!menuOpen && (
-                <button
-                    className="absolute top-4 left-4 z-30 md:hidden text-white"
-                    onClick={() => setMenuOpen(true)}
-                >
-                    <Menu size={28} />
-                </button>
-            )}
-            <div>
-                {/* aplicação */}
-                <div className='relative z-10 w-screen flex flex-col h-full flex itens-center'>
-                    <div className=' flex justify-center items-center gap-x-5 mt-2 mb-5 w-full'>
-                        <div className='w-32 h-32 rounded-full  relative overflow-hidden'>
-                            <Image
-                                src={avatar}
-                                style={{ objectFit: "cover" }}
-                                fill
-                            />
-                        </div>
-
-                        <div>
-                            <h1 className='text-white font-bold text-2xl capitalize'>Fulano da silva</h1>
-                            <h2 className='text-white font-light text-lg capitalize'>analista</h2>
-                        </div>
-                    </div>
-
-                    <form action="" className='flex flex-col w-auto itens-center justify-center mx-auto gap-4'>
-                        <label className='w-auto'>
-                            <span className='block text-white font-normal capitalize pl-2'>nome completo</span>
-                            <input type="text" className='w-[350px] h-[42px] bg-white rounded-md pl-2 text-sky-500  outline-sky-500' />
-                        </label>
-
-                        <label className='w-auto'>
-                            <span className='block text-white font-normal uppercase pl-2'>cpf</span>
-                            <InputMask
-                                mask="999.999.999-99"
-                                placeholder="000.000.000-00"
-                                className='w-[350px] h-[42px] bg-white rounded-md pl-2 text-sky-500 outline-sky-500'
-                            />
-                        </label>
-
-                        <label className='w-auto'>
-                            <span className='block text-white font-normal capitalize pl-2'>Usuário</span>
-                            <input type="text" className='w-[350px] h-[42px] bg-white rounded-md pl-2 text-sky-500 outline-sky-500' />
-                        </label>
-                        <label className='w-auto'>
-                            <span className='block text-white font-normal capitalize pl-2'>Senha</span>
-                            <input type="text" className='w-[350px] h-[42px] bg-white rounded-md text-sky-500 pl-2 outline-sky-500' />
-                        </label>
-                        {/* input de arquivo */}
-                        <div className='mb-5'>
-                            <h2 className='block text-white font-normal capitalize pl-2'>assinatura</h2>
-                            <label htmlFor="arquivo" onDragOver={handleOver} onDrop={handleDrop} onDragLeave={handleDragLeave} className={`w-[350px] h-[150px] bg-white rounded-md border-4 border-dashed border-gray-400 cursor-pointer transition flex flex-col justify-center items-center gap-2 p-5 ${isDragging ? 'bg-blues-500 border-white' : 'bg-white border-gray-400 cursor-pointer'}`}>  
-                                <input type="file" id='arquivo' className='hidden' onChange={handleArquivo} />
-                                <Image
-                                    src={Upload}
-                                    width={30}
-                                    height={30}
-                                />
-                                <p className='text-sm text-gray-500 font-medium uppercase text-center'>Clique aqui!<span className=' text-sky-500 font-medium uppercase underline block'> ou arraste o arquivo desejado</span></p>
-                                {
-                                ArquivoName ? (<p className='text-sm text-gray-700 font-medium text-center'>{ArquivoName}</p>
-                                ):(<p className='text-sm text-sky-700 font-medium text-center capitalize underline'>nenhum arquivo selecionado</p>)
-                            }
-                                
-                            </label>
-                        </div>
-                    </form>
-                    <button className='w-[280px] h-[56px] mx-auto bg-colorMainProxion text-white capitalize font-bold rounded-md'>alterar perfil</button>
-                </div>
-            </div>
+  return (
+    <div className="relative z-10 w-screen flex-col h-full flex itens-center">
+      <div className=" flex justify-center items-center gap-x-5 mt-2 mb-5 w-full">
+        <div className="w-32 h-32 rounded-full  relative overflow-hidden">
+          <Image src={avatar} style={{ objectFit: "cover" }} fill />
         </div>
 
-    );
+        <div>
+          <h1 className="text-white font-bold text-2xl capitalize">
+            Fulano da silva
+          </h1>
+          <h2 className="text-white font-light text-lg capitalize">analista</h2>
+        </div>
+      </div>
+
+      <form
+        action=""
+        className="flex flex-col w-auto itens-center justify-center mx-auto gap-4"
+      >
+        <label className="w-auto">
+          <span className="block text-white font-normal capitalize pl-2">
+            nome completo
+          </span>
+          <input
+            type="text"
+            className="w-[350px] h-[42px] bg-white rounded-md pl-2 text-sky-500  outline-sky-500"
+          />
+        </label>
+
+        <label className="w-auto">
+          <span className="block text-white font-normal uppercase pl-2">
+            cpf
+          </span>
+          <InputMask
+            mask="999.999.999-99"
+            placeholder="000.000.000-00"
+            className="w-[350px] h-[42px] bg-white rounded-md pl-2 text-sky-500 outline-sky-500"
+          />
+        </label>
+
+        <label className="w-auto">
+          <span className="block text-white font-normal capitalize pl-2">
+            Usuário
+          </span>
+          <input
+            type="text"
+            className="w-[350px] h-[42px] bg-white rounded-md pl-2 text-sky-500 outline-sky-500"
+          />
+        </label>
+        <label className="w-auto">
+          <span className="block text-white font-normal capitalize pl-2">
+            Senha
+          </span>
+          <input
+            type="text"
+            className="w-[350px] h-[42px] bg-white rounded-md text-sky-500 pl-2 outline-sky-500"
+          />
+        </label>
+        {/* input de arquivo */}
+        <div className="mb-5">
+          <h2 className="block text-white font-normal capitalize pl-2">
+            assinatura
+          </h2>
+          <label
+            htmlFor="arquivo"
+            onDragOver={handleOver}
+            onDrop={handleDrop}
+            onDragLeave={handleDragLeave}
+            className={`w-[350px] h-[150px] bg-white rounded-md border-4 border-dashed border-gray-400 cursor-pointer transition flex flex-col justify-center items-center gap-2 p-5 ${
+              isDragging
+                ? "bg-blues-500 border-white"
+                : "bg-white border-gray-400 cursor-pointer"
+            }`}
+          >
+            <input
+              type="file"
+              id="arquivo"
+              className="hidden"
+              onChange={handleArquivo}
+            />
+            <Image src={Upload} width={30} height={30} />
+            <p className="text-sm text-gray-500 font-medium uppercase text-center">
+              Clique aqui!
+              <span className=" text-sky-500 font-medium uppercase underline block">
+                {" "}
+                ou arraste o arquivo desejado
+              </span>
+            </p>
+            {ArquivoName ? (
+              <p className="text-sm text-gray-700 font-medium text-center">
+                {ArquivoName}
+              </p>
+            ) : (
+              <p className="text-sm text-sky-700 font-medium text-center capitalize underline">
+                nenhum arquivo selecionado
+              </p>
+            )}
+          </label>
+        </div>
+      </form>
+      <button className="w-[280px] h-[56px] mx-auto bg-colorMainProxion text-white capitalize font-bold rounded-md">
+        alterar perfil
+      </button>
+    </div>
+  );
 }

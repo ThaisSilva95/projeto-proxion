@@ -1,56 +1,29 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import Logo from "../IMG/LOGOBG.png";
-import { Menu, X } from "lucide-react";
-import SideBarMenu from "../../Componentes/Menu/SideBarMenu";
-import BGIMG from "../IMG/BG.png";
 import InputFile from "../../Componentes/InputFile/InputFile";
 import Button from "../../Componentes/Button/Button";
 
 function InportInspection() {
-  const [menuOpen, setMenuOpen] = useState(false);
   return (
-    <div className="relative w-screen h-screen flex bg-gray-100 overflow-hidden">
-      {/* Background */}
+    <div className="justify-between text-center relative w-screen h-screen flex  flex-col items-center py-4 lg:py-16 px-10  gap-3">
+      <h2 className="w-64 text-2xl font-bold mb-3 mt-16 lg:mt-16 text-[#ffffff]">
+        Faça a importação da última vistoria
+      </h2>
+      <form
+        action=""
+        className="flex flex-col w-[300px] justify-center items-center mb-[170px] lg:mb-0 lg:justify-between lg:h-[370px]"
+      >
+        <InputFile />
+        <Button textButton="Próximo" />
+      </form>
       <Image
-        src={BGIMG}
-        alt="Background"
-        layout="fill"
-        objectFit="cover"
-        priority
-        className="z-0"
+        src={Logo}
+        alt="Error"
+        className="fixed bottom-2 max-w-[100px] mx-auto mt-8 mb-8  lg:hidden"
       />
-      <div className="absolute inset-0 bg-black/20 z-0" />
-
-      <SideBarMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-
-      {!menuOpen && (
-        <button
-          className="absolute top-4 left-4 z-30 md:hidden text-white"
-          onClick={() => setMenuOpen(true)}
-        >
-          <Menu size={28} />
-        </button>
-      )}
-      <div className="justify-between text-center relative w-screen h-screen flex  flex-col items-center py-4 lg:py-16 px-10  gap-3">
-        <h2 className="w-64 text-2xl font-bold mb-3 mt-16 lg:mt-16 text-[#ffffff]">
-          Faça a importação da última vistoria
-        </h2>
-        <form
-          action=""
-          className="flex flex-col w-[300px] justify-center items-center mb-[170px] lg:mb-0 lg:justify-between lg:h-[370px]"
-        >
-          <InputFile />
-          <Button textButton="Próximo" />
-        </form>
-        <Image
-          src={Logo}
-          alt="Error"
-          className="fixed bottom-2 max-w-[100px] mx-auto mt-8 mb-8  lg:hidden"
-        />
-      </div>
     </div>
   );
 }

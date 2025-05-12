@@ -3,23 +3,18 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Logo from "../IMG/LOGOBG.png";
-import { Menu } from "lucide-react";
-import SideBarMenu from "../../Componentes/Menu/SideBarMenu";
-import BGIMG from "../IMG/BG.png";
 import InputSelect from "../../Componentes/InputSelect/InputSelect";
 import Button from "../../Componentes/Button/Button";
 import LogoCompany from "../IMG/Logo-jnj.png";
 
 export default function SelectCompanyPage() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  
   // Estados para os dados
   const [clientes, setClientes] = useState([]);
   const [unidades, setUnidades] = useState([]);
   const [subLocais, setSubLocais] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  
+
   // Estados para seleções
   const [clienteSelecionado, setClienteSelecionado] = useState("");
   const [unidadeSelecionada, setUnidadeSelecionada] = useState("");
@@ -30,17 +25,17 @@ export default function SelectCompanyPage() {
     const fetchClientes = async () => {
       setLoading(true);
       setError(null);
-      
+
       try {
-        const response = await fetch('/api/empresas/cliente');
-        
+        const response = await fetch("/api/empresas/cliente");
+
         if (!response.ok) {
           throw new Error(`Erro ${response.status}: ${response.statusText}`);
         }
-        
+
         const data = await response.json();
         console.log("Clientes recebidos:", data); // Debug
-        
+
         if (Array.isArray(data) && data.length > 0) {
           setClientes(data);
         } else if (data.error) {
@@ -58,7 +53,7 @@ export default function SelectCompanyPage() {
         setLoading(false);
       }
     };
-    
+
     fetchClientes();
   }, []);
 
@@ -68,24 +63,26 @@ export default function SelectCompanyPage() {
       setUnidades([]);
       return;
     }
-    
+
     const fetchUnidades = async () => {
       setLoading(true);
       setError(null);
-      
+
       try {
-        const url = `/api/empresas/cliente/unidade?cliente=${encodeURIComponent(clienteSelecionado)}`;
+        const url = `/api/empresas/cliente/unidade?cliente=${encodeURIComponent(
+          clienteSelecionado
+        )}`;
         console.log("Buscando unidades URL:", url); // Debug
-        
+
         const response = await fetch(url);
-        
+
         if (!response.ok) {
           throw new Error(`Erro ${response.status}: ${response.statusText}`);
         }
-        
+
         const data = await response.json();
         console.log("Unidades recebidas:", data); // Debug
-        
+
         if (Array.isArray(data) && data.length > 0) {
           setUnidades(data);
         } else if (data.error) {
@@ -103,7 +100,7 @@ export default function SelectCompanyPage() {
         setLoading(false);
       }
     };
-    
+
     fetchUnidades();
   }, [clienteSelecionado]);
 
@@ -113,24 +110,26 @@ export default function SelectCompanyPage() {
       setSubLocais([]);
       return;
     }
-    
+
     const fetchSubLocais = async () => {
       setLoading(true);
       setError(null);
-      
+
       try {
-        const url = `/api/empresas/cliente/unidade/sub-local?cliente=${encodeURIComponent(clienteSelecionado)}&unidade=${encodeURIComponent(unidadeSelecionada)}`;
+        const url = `/api/empresas/cliente/unidade/sub-local?cliente=${encodeURIComponent(
+          clienteSelecionado
+        )}&unidade=${encodeURIComponent(unidadeSelecionada)}`;
         console.log("Buscando sublocais URL:", url); // Debug
-        
+
         const response = await fetch(url);
-        
+
         if (!response.ok) {
           throw new Error(`Erro ${response.status}: ${response.statusText}`);
         }
-        
+
         const data = await response.json();
         console.log("Sublocais recebidos:", data); // Debug
-        
+
         if (Array.isArray(data) && data.length > 0) {
           setSubLocais(data);
         } else if (data.error) {
@@ -148,7 +147,7 @@ export default function SelectCompanyPage() {
         setLoading(false);
       }
     };
-    
+
     fetchSubLocais();
   }, [clienteSelecionado, unidadeSelecionada]);
 
@@ -172,123 +171,100 @@ export default function SelectCompanyPage() {
 
   const handleSubmit = (e) => {
     if (e) e.preventDefault();
-    
+
     if (!clienteSelecionado || !unidadeSelecionada || !subLocalSelecionado) {
       setError("Por favor, preencha todos os campos");
       return;
     }
-    
+
     // Aqui você pode navegar para a próxima página ou enviar os dados
     console.log("Empresa selecionada:", {
       cliente: clienteSelecionado,
       unidade: unidadeSelecionada,
-      subLocal: subLocalSelecionado
+      subLocal: subLocalSelecionado,
     });
-    
+
     // Exemplo de navegação para a próxima página
     // router.push('/proxima-pagina');
   };
 
   return (
-    <div className="relative w-screen h-screen flex bg-gray-100 overflow-hidden">
-      {/* Background */}
-      <Image
-        src={BGIMG}
-        alt="Background"
-        layout="fill"
-        objectFit="cover"
-        priority
-        className="z-0"
-      />
-      <div className="absolute inset-0 bg-black/50 z-0" />
+    <div className="relative w-screen h-screen flex flex-col items-center p-4 lg:py-8 gap-3">
+      <h2 className="text-2xl font-bold mb-3 mt-16 text-[#ffffff]">
+        Selecione a empresa
+      </h2>
 
-      <SideBarMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+      <form onSubmit={handleSubmit} className="flex flex-col w-[300px]">
+        <InputSelect
+          labelText="Cliente"
+          inputHeight="50px"
+          showIcon
+          textStyle="text-xl font-medium text-[#01AAAD]"
+          opcoes={clientes}
+          value={clienteSelecionado}
+          onChange={handleClienteChange}
+          disabled={loading}
+        />
 
-      {!menuOpen && (
-        <button
-          className="absolute top-4 left-4 z-30 md:hidden text-white"
-          onClick={() => setMenuOpen(true)}
-        >
-          <Menu size={28} />
-        </button>
-      )}
+        <InputSelect
+          labelText="Unidade"
+          inputHeight="50px"
+          showIcon
+          textStyle="text-xl font-medium text-[#01AAAD]"
+          opcoes={unidades}
+          value={unidadeSelecionada}
+          onChange={handleUnidadeChange}
+          disabled={!clienteSelecionado || loading}
+        />
 
-      <div className="relative w-screen h-screen flex flex-col items-center p-4 lg:py-8 gap-3">
-        <h2 className="text-2xl font-bold mb-3 mt-16 text-[#ffffff]">
-          Selecione a empresa
-        </h2>
+        <InputSelect
+          labelText="Sublocal"
+          inputHeight="50px"
+          showIcon
+          textStyle="text-xl font-medium text-[#01AAAD]"
+          opcoes={subLocais}
+          value={subLocalSelecionado}
+          onChange={handleSubLocalChange}
+          disabled={!unidadeSelecionada || loading}
+        />
 
-        <form onSubmit={handleSubmit} className="flex flex-col w-[300px]">
-          <InputSelect
-            labelText="Cliente"
-            inputHeight="50px"
-            showIcon
-            textStyle="text-xl font-medium text-[#01AAAD]"
-            opcoes={clientes}
-            value={clienteSelecionado}
-            onChange={handleClienteChange}
-            disabled={loading}
-          />
-          
-          <InputSelect
-            labelText="Unidade"
-            inputHeight="50px"
-            showIcon
-            textStyle="text-xl font-medium text-[#01AAAD]"
-            opcoes={unidades}
-            value={unidadeSelecionada}
-            onChange={handleUnidadeChange}
-            disabled={!clienteSelecionado || loading}
-          />
-          
-          <InputSelect
-            labelText="Sublocal"
-            inputHeight="50px"
-            showIcon
-            textStyle="text-xl font-medium text-[#01AAAD]"
-            opcoes={subLocais}
-            value={subLocalSelecionado}
-            onChange={handleSubLocalChange}
-            disabled={!unidadeSelecionada || loading}
-          />
-
-          <div className="bg-white flex justify-center items-center h-[150px] mt-[24px] text-xl font-medium text-[#01AAAD] rounded-[8px]">
-            {clienteSelecionado ? (
-              <div className="text-center">
-                <p className="font-bold">{clienteSelecionado}</p>
-                {unidadeSelecionada && <p>Unidade: {unidadeSelecionada}</p>}
-                {subLocalSelecionado && <p>Sublocal: {subLocalSelecionado}</p>}
-              </div>
-            ) : (
-              <Image className="" src={LogoCompany} alt="" />
-            )}
-          </div>
-
-          {error && (
-            <div className="bg-red-100 text-red-600 p-2 rounded mt-2">
-              {error}
+        <div className="bg-white flex justify-center items-center h-[150px] mt-[24px] text-xl font-medium text-[#01AAAD] rounded-[8px]">
+          {clienteSelecionado ? (
+            <div className="text-center">
+              <p className="font-bold">{clienteSelecionado}</p>
+              {unidadeSelecionada && <p>Unidade: {unidadeSelecionada}</p>}
+              {subLocalSelecionado && <p>Sublocal: {subLocalSelecionado}</p>}
             </div>
+          ) : (
+            <Image className="" src={LogoCompany} alt="" />
           )}
-          
-          <Button 
-            textButton="Próximo" 
-            type="submit"
-            disabled={(!clienteSelecionado || !unidadeSelecionada || !subLocalSelecionado) || loading}
-          />
-        </form>
-        
-        {loading && (
-          <div className="mt-4 text-white">
-            Carregando...
+        </div>
+
+        {error && (
+          <div className="bg-red-100 text-red-600 p-2 rounded mt-2">
+            {error}
           </div>
         )}
-        
-        <Image
-          src={Logo}
-          alt="Error"
-          className="fixed bottom-2 max-w-[100px] mx-auto mt-8 mb-8 lg:hidden"
+
+        <Button
+          textButton="Próximo"
+          type="submit"
+          disabled={
+            !clienteSelecionado ||
+            !unidadeSelecionada ||
+            !subLocalSelecionado ||
+            loading
+          }
         />
-      </div>
+      </form>
+
+      {loading && <div className="mt-4 text-white">Carregando...</div>}
+
+      <Image
+        src={Logo}
+        alt="Error"
+        className="fixed bottom-2 max-w-[100px] mx-auto mt-8 mb-8 lg:hidden"
+      />
     </div>
   );
 }
