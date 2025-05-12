@@ -89,7 +89,7 @@ export default function ListaDeEquipamentos() {
 
         {/* Botão Finalizar Vistoria */}
 
-        <button className="w-full bg-teal-500 text-white rounded-lg text-center text-sm font-semibold shadow-md hover:bg-teal-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 mt-6">
+        <button className="w-full bg-teal-500 text-white rounded-lg text-center text-sm font-semibold shadow-md hover:bg-teal-600  py-3 px-6  transition duration-300 mt-6">
           Finalizar Vistoria
         </button>
       </div>
