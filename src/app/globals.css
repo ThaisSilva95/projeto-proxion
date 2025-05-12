@@ -19,15 +19,14 @@ html, body {
   padding: 0;
   margin: 0;
   height: 100%;
- 
   color: black;
 }
 
 .page {
   width: 794px;
   height: 1122px;
-  margin: 0 ;
-  padding: 0;
+  margin: 0 auto;
+  padding: 40px;
   background: white;
   position: relative;
   overflow: hidden;

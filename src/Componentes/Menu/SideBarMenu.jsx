@@ -101,7 +101,7 @@ function SidebarMenu({ menuOpen, setMenuOpen }) {
         </div>
         <div>
           <h2 className="text-gray-600 font-bold">
-            <a href="/" className="hover:text-[#00A7B2]">
+            <a href="/alterarperfil" className="hover:text-[#00A7B2]">
               Alterar Perfil
             </a>
           </h2>

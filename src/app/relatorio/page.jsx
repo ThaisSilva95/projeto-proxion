@@ -10,9 +10,24 @@ export default function Relatorio() {
     const relatorioRef = useRef(null);
     const [html2pdfLib, setHtml2pdfLib] = useState(null);
 
+    const dadosResumo = [
+        { status: 'Produção', valor: 3 },
+        { status: 'Disponível', valor: 2 },
+        { status: 'Manutenção', valor: 1 },
+        { status: 'Danificado', valor: 1 }
+    ];
+
+    const dadosPorTipo = [
+        { tipo: 'Disponivel', valor: 25 },
+        { tipo: 'Em Produção', valor: 10 },
+        { tipo: 'Em Manutenção', valor: 2 },
+        { tipo: 'Danificado', valor: 12 },
+        { tipo: 'Indisponível', valor: 2 },
+    ];
+
     useEffect(() => {
         import('html2pdf.js').then((mod) => {
-            setHtml2pdfLib(mod); 
+            setHtml2pdfLib(mod);
         });
     }, []);
 
@@ -27,6 +42,7 @@ export default function Relatorio() {
                     filename: 'relatorio.pdf',
                     html2canvas: { scale: 2 },
                     jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
+                    enableLinks: true,
                 })
                 .from(relatorioRef.current)
                 .save();
@@ -35,20 +51,20 @@ export default function Relatorio() {
     };
 
     return (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center p-4">
             <button
                 onClick={exportarPDF}
-                className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+                className="bg-blue-500 text-white px-4 py-2 rounded mb-4"
             >
                 Exportar PDF
             </button>
 
             <div id="relatorio" ref={relatorioRef}>
-                <div className="page page-break">
+                <div className="page">
                     <Capa />
                 </div>
-                <div className="page page-break">
-                    <Graficos />
+                <div className="page ">
+                    <Graficos dadosResumo={dadosResumo} dadosPorTipo={dadosPorTipo} />
                 </div>
                 {/* Adicione outras páginas aqui */}
             </div>
