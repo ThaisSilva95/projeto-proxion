@@ -4,8 +4,12 @@ import Image from "next/image";
 import { X } from "lucide-react";
 import PropTypes from "prop-types";
 import LogoTransparente from "../../app/IMG/LogoFTransp.png";
+import { usePathname } from "next/navigation";
 
 function SidebarMenu({ menuOpen, setMenuOpen }) {
+  const pathname = usePathname();
+
+
   return (
     <div
       className={`fixed md:relative z-20 h-full bg-[#D9D9D9] text-black p-10 w-64 transition-transform duration-300 ease-in-out
@@ -26,42 +30,57 @@ function SidebarMenu({ menuOpen, setMenuOpen }) {
           <h2 className="text-gray-600 font-bold">Vistoria</h2>
           <ul className="ml-4 space-y-1 mt-1 text-gray-600">
             <li>
-              <a href="/iniciarvistoria" className="hover:text-[#00A7B2]">
+              <a
+                href="/iniciarvistoria"
+                className={`hover:text-[#00A7B2] ${pathname === "/iniciarvistoria" ? "text-[#00A7B2] font-bold" : ""
+                  }`}
+              >
                 Iniciar Vistoria
               </a>
             </li>
             <li>
-              <a href="/" className="hover:text-[#00A7B2]">
+              <a href="/" className="hover:text-[#00A7B2] ">
                 Retomar Vistoria
               </a>
             </li>
+
             <li>
-              <a href="/" className="hover:text-[#00A7B2]">
-                Reiniciar Vistoria
-              </a>
-            </li>
-            <li>
-              <a href="/importarvistoria" className="hover:text-[#00A7B2]">
+              <a href="/importarvistoria" 
+              className={`hover:text-[#00A7B2] ${pathname === "/importarvistoria" ? "text-[#00A7B2] font-bold" : ""
+                  }`}
+              >
                 Importar Vistoria
               </a>
             </li>
             <li>
-              <a href="/selecionarempresa" className="hover:text-[#00A7B2]">
+              <a href="/selecionarempresa" 
+              className={`hover:text-[#00A7B2] ${pathname === "/selecionarempresa" ? "text-[#00A7B2] font-bold" : ""
+                  }`}
+              >
                 Selecionar Empresa
               </a>
             </li>
             <li>
-              <a href="/selecionarequipamento" className="hover:text-[#00A7B2]">
+              <a href="/selecionarequipamento" 
+              className={`hover:text-[#00A7B2] ${pathname === "/selecionarequipamento" ? "text-[#00A7B2] font-bold" : ""
+                  }`}
+              >
                 Selecionar Equipamento
               </a>
             </li>
             <li>
-              <a href="/listaequipamentos" className="hover:text-[#00A7B2]">
+              <a href="/listaequipamentos" 
+              className={`hover:text-[#00A7B2] ${pathname === "/listaequipamentos" ? "text-[#00A7B2] font-bold" : ""
+                  }`}
+              >
                 Lista de Equipamentos
               </a>
             </li>
             <li>
-              <a href="/paginaparabens" className="hover:text-[#00A7B2]">
+              <a href="/paginaparabens" 
+              className={`hover:text-[#00A7B2] ${pathname === "/paginaparabens" ? "text-[#00A7B2] font-bold" : ""
+                  }`}
+              >
                 Finalizar Vistoria
               </a>
             </li>
@@ -76,20 +95,22 @@ function SidebarMenu({ menuOpen, setMenuOpen }) {
               </a>
             </li>
             <li>
-              <a href="/cadastroempresas" className="hover:text-[#00A7B2]">
+              <a href="/cadastroempresas" 
+              className={`hover:text-[#00A7B2] ${pathname === "/cadastroempresas" ? "text-[#00A7B2] font-bold" : ""
+                  }`}
+              >
                 Cadastro de Clientes
               </a>
             </li>
             <li>
-              <a href="/" className="hover:text-[#00A7B2]">
-                Cadastro de Equipamento
+              <a href="/equipamentodefeito" 
+              className={`hover:text-[#00A7B2] ${pathname === "/equipamentodefeito" ? "text-[#00A7B2] font-bold" : ""
+                  }`}
+              >
+                Cadastro de Equipamentos
               </a>
             </li>
-            <li>
-              <a href="/" className="hover:text-[#00A7B2]">
-                Cadastro de Defeito
-              </a>
-            </li>
+
           </ul>
         </div>
         <div>
@@ -101,13 +122,16 @@ function SidebarMenu({ menuOpen, setMenuOpen }) {
         </div>
         <div>
           <h2 className="text-gray-600 font-bold">
-            <a href="/alterarperfil" className="hover:text-[#00A7B2]">
+            <a href="/alterarperfil" 
+            className={`hover:text-[#00A7B2] ${pathname === "/alterarperfil" ? "text-[#00A7B2] font-bold" : ""
+                  }`}
+              >
               Alterar Perfil
             </a>
           </h2>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 

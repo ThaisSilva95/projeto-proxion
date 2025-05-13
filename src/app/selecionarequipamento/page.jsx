@@ -6,6 +6,7 @@ import Logo from "../IMG/LOGOBG.png";
 import Button from "../../Componentes/Button/Button";
 import InputSelect from "../../Componentes/InputSelect/InputSelect";
 import InputText from "../../Componentes/InputText/InputText";
+import Link from 'next/link'
 
 function SelectEquipment() {
   const [tiposEquipamento, setTiposEquipamento] = useState([]);
@@ -236,7 +237,11 @@ function SelectEquipment() {
           textStyle="text-center text-xl font-medium text-[#01AAAD]"
           inputMargin="18px 0 0 0"
           value={serieManual}
-          onChange={handleSerieManualChange}
+          onChange={(e) => setSerieManual(e.target.value)}
+          onEnter={(value) => {
+            setSerieSelecionada(value); 
+            setSerieManual(""); 
+          }}
           disabled={loading}
         />
 
@@ -245,7 +250,7 @@ function SelectEquipment() {
             {error}
           </div>
         )}
-
+      <Link href="/equipamentoselecionado">
         <Button
           textButton="Selecionar"
           type="submit"
@@ -256,15 +261,11 @@ function SelectEquipment() {
             loading
           }
         />
+        </Link>
       </form>
 
       {loading && <div className="mt-4 text-white">Carregando...</div>}
 
-      <Image
-        src={Logo}
-        alt="Error"
-        className="fixed bottom-2 max-w-[100px] mx-auto mt-8 mb-8 lg:hidden"
-      />
     </div>
   );
 }

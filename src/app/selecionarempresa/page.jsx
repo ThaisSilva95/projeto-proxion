@@ -6,6 +6,8 @@ import Logo from "../IMG/LOGOBG.png";
 import InputSelect from "../../Componentes/InputSelect/InputSelect";
 import Button from "../../Componentes/Button/Button";
 import LogoCompany from "../IMG/Logo-jnj.png";
+import Link from "next/link";
+
 
 export default function SelectCompanyPage() {
   // Estados para os dados
@@ -189,12 +191,12 @@ export default function SelectCompanyPage() {
   };
 
   return (
-    <div className="relative w-screen h-screen flex flex-col items-center p-4 lg:py-8 gap-3">
-      <h2 className="text-2xl font-bold mb-3 mt-16 text-[#ffffff]">
+    <div className="relative min-h-screen w-screen flex flex-col items-center p-4 lg:py-8 gap-3 overflow-y-auto">
+      <h2 className="text-2xl font-bold mb-3 mt-10 text-[#ffffff]">
         Selecione a empresa
       </h2>
 
-      <form onSubmit={handleSubmit} className="flex flex-col w-[300px]">
+      <form onSubmit={handleSubmit} className="flex flex-col w-[300px] mt-[-11px]">
         <InputSelect
           labelText="Cliente"
           inputHeight="50px"
@@ -228,7 +230,7 @@ export default function SelectCompanyPage() {
           disabled={!unidadeSelecionada || loading}
         />
 
-        <div className="bg-white flex justify-center items-center h-[150px] mt-[24px] text-xl font-medium text-[#01AAAD] rounded-[8px]">
+        <div className="bg-white flex justify-center items-center h-[110px] mt-[20px] text-xl font-medium text-[#01AAAD] rounded-[8px]">
           {clienteSelecionado ? (
             <div className="text-center">
               <p className="font-bold">{clienteSelecionado}</p>
@@ -245,26 +247,24 @@ export default function SelectCompanyPage() {
             {error}
           </div>
         )}
+        <Link href="/listaequipamentos">
+          <Button
+            textButton="Próximo"
+            type="submit"
+            disabled={
+              !clienteSelecionado ||
+              !unidadeSelecionada ||
+              !subLocalSelecionado ||
+              loading
+            }
+          >
+          </Button>
+        </Link>
 
-        <Button
-          textButton="Próximo"
-          type="submit"
-          disabled={
-            !clienteSelecionado ||
-            !unidadeSelecionada ||
-            !subLocalSelecionado ||
-            loading
-          }
-        />
+
       </form>
-
       {loading && <div className="mt-4 text-white">Carregando...</div>}
 
-      <Image
-        src={Logo}
-        alt="Error"
-        className="fixed bottom-2 max-w-[100px] mx-auto mt-8 mb-8 lg:hidden"
-      />
-    </div>
+    </div >
   );
 }
