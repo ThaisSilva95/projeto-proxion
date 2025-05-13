@@ -68,7 +68,7 @@ function PageEquipamentos() {
 
   return (
     <>
-      <div className="relative w-full h-screen flex flex-col items-center p-4 lg:py-8 gap-3">
+      <div className="relative w-full h-screen flex flex-col p-4 lg:py-8 gap-3">
         <h2 className="text-2xl font-bold mb-3 mt-16 text-[#ffffff]">
           Equipamentos e Defeitos
         </h2>
@@ -103,7 +103,7 @@ function PageEquipamentos() {
           <input
             type="text"
             placeholder="Filtrar"
-            className=" flex flex-row items-center bg-[#00aaad21] border-2 border-[#fff4f442] text-white font-bold px-4 rounded-md h-[36px] w-[108px]"
+            className=" flex flex-row items-center bg-white border-2 border-[#fff4f442] text-gray font-bold px-4 rounded-md h-[36px] w-[108px]"
             value={filtro}
             onChange={(e) => setFiltro(e.target.value)}
           />
@@ -144,11 +144,7 @@ function PageEquipamentos() {
             </tbody>
           </table>
         </div>
-        <Image
-          src={Logo}
-          alt="Error"
-          className="fixed bottom-2 max-w-[100px] mx-auto mt-8 mb-8 lg:hidden"
-        />
+       
       </div>
       {modalOpen && (
         <ModalEquipment

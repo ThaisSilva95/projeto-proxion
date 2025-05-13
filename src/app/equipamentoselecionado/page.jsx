@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Button from "../../Componentes/Button/Button";
+import Link from 'next/link'
 
 const EquipmentStatusForm = () => {
   const [status, setStatus] = useState("");
@@ -107,8 +108,9 @@ const EquipmentStatusForm = () => {
             rows={3}
           ></textarea>
         </div>
-
+        <Link href="/listaequipamentos">
         <Button textButton="Equipamento Vistoriado" type="submit" />
+        </Link>
       </div>
     </div>
   );

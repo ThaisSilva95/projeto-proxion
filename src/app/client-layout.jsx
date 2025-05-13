@@ -16,8 +16,7 @@ function ClientLayout({ children }) {
   useEffect(() => {
     if (
       pathname === "/" ||
-      pathname === "/login" ||
-      pathname === "/paginaparabens"
+      pathname === "/login" 
     ) {
       setShouldShowMenu(false);
     } else {
