@@ -90,8 +90,10 @@ function SidebarMenu({ menuOpen, setMenuOpen }) {
           <h2 className="text-gray-600 font-bold">Cadastro</h2>
           <ul className="ml-4 space-y-1 mt-1 text-gray-600">
             <li>
-              <a href="/" className="hover:text-[#00A7B2]">
-                Cadastro de Analista
+              <a href="/cadastrousuarios" 
+              className={`hover:text-[#00A7B2] ${pathname === "/cadastrousuario" ? "text-[#00A7B2] font-bold" : ""
+                  }`}>
+                Cadastro Usuários
               </a>
             </li>
             <li>
