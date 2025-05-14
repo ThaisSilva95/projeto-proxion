@@ -40,7 +40,7 @@ export default function ClientModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 text-teal-700">
       <div
         className="relative w-full max-w-2xl p-8 bg-white rounded-lg shadow-lg"
         style={{
@@ -51,18 +51,18 @@ export default function ClientModal({
         }}
       >
         <button
-          className="absolute top-4 right-4 text-xl text-[#00ABAD]"
+          className="absolute top-4 right-4 text-xl "
           onClick={onClose}
         >
           X
         </button>
-        <h2 className="text-2xl font-bold text-center mb-10 text-[#00ABAD]">
+        <h2 className="text-2xl font-bold text-center mb-10 ">
           Cadastro de Cliente
         </h2>
 
         <div className="grid grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-[#00ABAD]">
+            <label className="block text-sm font-medium ">
               Código do Cliente
             </label>
             <input
@@ -77,7 +77,7 @@ export default function ClientModal({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[#00ABAD]">
+            <label className="block text-sm font-medium ">
               Telefone
             </label>
             <input
@@ -108,7 +108,7 @@ export default function ClientModal({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[#00ABAD]">
+            <label className="block text-sm font-medium ">
               Código Unidade
             </label>
             <input
@@ -123,7 +123,7 @@ export default function ClientModal({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[#00ABAD]">
+            <label className="block text-sm font-medium ">
               Cidade
             </label>
             <input
@@ -137,7 +137,7 @@ export default function ClientModal({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[#00ABAD]">
+            <label className="block text-sm font-medium ">
               Código Sublocal
             </label>
             <input
@@ -152,7 +152,7 @@ export default function ClientModal({
           </div>
 
           <div className="col span-2">
-            <label className="block text-sm font-medium text-[#00ABAD]">
+            <label className="block text-sm font-medium ">
               Responsável
             </label>
             <input
@@ -166,7 +166,7 @@ export default function ClientModal({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[#00ABAD]">
+            <label className="block text-sm font-medium ">
               E-mail
             </label>
             <input
@@ -180,7 +180,7 @@ export default function ClientModal({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[#00ABAD]">
+            <label className="block text-sm font-medium ">
               Logo
             </label>
             <input
@@ -198,13 +198,13 @@ export default function ClientModal({
         <div className="flex justify-end gap-4 mt-6">
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded text-[#00ABAD]"
+            className="px-4 py-2 rounded "
           >
             Cancelar
           </button>
           <button
             onClick={() => onSave(formData)}
-            className="px-4 py-2 rounded bg-teal-500 text-white"
+            className="px-4 py-2 rounded bg-teal-700 text-white"
           >
             Finalizar
           </button>

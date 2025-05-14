@@ -24,14 +24,43 @@ export default function ClientModal({
     });
   };
 
-  if (!isOpen) {
-    return null;
-  }
+  if (!isOpen) return null;
+
+  const gruposDeDefeitos = [
+    {
+      nome: "Defeitos Gerais",
+      opcoes: [
+        "Carcaca", "Tela", "Nao Liga", "Engine", "Comunicação", "Borracha de Proteção",
+        "Trava da Bateria", "Gatilho", "Software/Sistema Operacional", "Video de Engie",
+        "Antena RFID", "Botão Feed", "Configuração", "Teclado", "Outros",
+      ],
+    },
+    {
+      nome: "Impressora",
+      opcoes: [
+        "Cabeça da Impressão", "Rolete", "Suporte Mídia", "Suporte Ribbon", "Sensor Ribbon",
+        "Cutter", "Módulo RFID", "Trava da Tampa", "Sensor da Tampa", "Sensor de Midia",
+        "Rebobinador/Peel off", "Trava da cabeça da impressão", "Sensor da Cabeça de impressão",
+      ],
+    },
+    {
+      nome: "Leitores",
+      opcoes: ["Suporte Device", "Firmware", "LED", "Conector de Antena"],
+    },
+    {
+      nome: "Coletores",
+      opcoes: ["LCD", "Pinos de Conexão", "Atualização"],
+    },
+    {
+      nome: "Diversos",
+      opcoes: ["Antena", "Placa", "Comunicação Ethernet"],
+    },
+  ];
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 text-[#00ABAD]">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 text-teal-700">
       <div
-        className="relative w-[912px] p-8 bg-white rounded-lg shadow-lg"
+        className="relative w-[912px] p-8 bg-white rounded-lg shadow-lg max-h-[90vh] overflow-y-auto"
         style={{
           backgroundImage: `url(${BGModal.src})`,
           backgroundSize: "cover",
@@ -39,12 +68,13 @@ export default function ClientModal({
           backgroundPosition: "center",
         }}
       >
-        <button className="absolute top-4 right-4 text-xl" onClick={onClose}>
+        <button className="absolute top-4 right-4 text-xl font-bold" onClick={onClose}>
           X
         </button>
-        <h2 className="text-2xl font-bold text-center mb-8 ">
+        <h2 className="text-2xl font-bold text-center mb-8">
           Cadastro de Equipamento e Defeitos
         </h2>
+
         <div className="flex flex-row justify-between items-center gap-4 mb-6">
           <div className="flex flex-col justify-start w-1/2">
             <label className="text-lg font-semibold mb-1" htmlFor="equipamento">
@@ -60,425 +90,47 @@ export default function ClientModal({
               }
             />
           </div>
-          <button className=" text-white font-medium text-lg bg-[#FDA417] w-[170px] h-[36px] rounded-lg">
+          <button className="text-white font-medium text-lg bg-[#FDA417] w-[170px] h-[36px] rounded-lg">
             Adicionar Defeito
           </button>
         </div>
-        <div>
-          <h2 className="text-lg font-semibold mb-2">
-            Selecione os defeitos possíveis:
-          </h2>
-          <div className="grid grid-rows-3">
-            <div>
-              <h3 className=" font-semibold text-md mb-1">Defeitos Gerais</h3>
-              <div className="grid grid-cols-4">
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="carcaca"
-                    value="Carcaca"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="carcaca" className="ml-2 text-sm">
-                    Carcaca
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="tela"
-                    value="Tela"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="tela" className="ml-2 text-sm">
-                    Tela
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="naoLiga"
-                    value="Nao Liga"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="naoLiga" className="ml-2 text-sm">
-                    Não Liga
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="engineGeral"
-                    value="Engine"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="engineGeral"
-                    value="Engine"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="engineGeral"
-                    value="Engine"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="engineGeral"
-                    value="Engine"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="engineGeral"
-                    value="Engine"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="engineGeral"
-                    value="Engine"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="engineGeral"
-                    value="Engine"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="engineGeral"
-                    value="Engine"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="engineGeral"
-                    value="Engine"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="engineGeral"
-                    value="Engine"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div>
-              <h3 className=" font-semibold text-md mb-1">Defeitos Gerais</h3>
-              <div className="grid grid-cols-4">
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="carcaca"
-                    value="Carcaca"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="carcaca" className="ml-2 text-sm">
-                    Carcaca
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="tela"
-                    value="Tela"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="tela" className="ml-2 text-sm">
-                    {" "}
-                    Tela
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="naoLiga"
-                    value="Nao Liga"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="naoLiga" className="ml-2 text-sm">
-                    Não Liga
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="engineGeral"
-                    value="Engine"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="engineGeral"
-                    value="Engine"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="engineGeral"
-                    value="Engine"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="engineGeral"
-                    value="Engine"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="engineGeral"
-                    value="Engine"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="engineGeral"
-                    value="Engine"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="engineGeral"
-                    value="Engine"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="engineGeral"
-                    value="Engine"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="engineGeral"
-                    value="Engine"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="engineGeral"
-                    value="Engine"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
-                  </label>
-                </div>
-              </div>
-            </div>
 
-            <div>
-              <h3 className=" font-semibold text-md mb-1">Defeitos Gerais</h3>
-              <div className="grid grid-cols-4">
-                <div className="flex gap-2 items-center justify-start mb-1">
+        {gruposDeDefeitos.map((grupo, index) => (
+          <div key={index} className="mb-6">
+            <h3 className="font-bold text-md mb-1">{grupo.nome}</h3>
+            <div className="grid grid-cols-4 gap-2">
+              {grupo.opcoes.map((defeito) => (
+                <div key={defeito} className="flex gap-2 items-center">
                   <input
                     type="checkbox"
-                    id="carcaca"
-                    value="Carcaca"
+                    id={defeito}
+                    value={defeito}
                     onChange={handleCheckboxChange}
+                    checked={formData.defeitos.includes(defeito)}
+                    className="accent-[#00ABAD]"
                   />
-                  <label htmlFor="carcaca" className="ml-2 text-sm">
-                    Carcaca
+                  <label htmlFor={defeito} className="text-sm font-semibold">
+                    {defeito}
                   </label>
                 </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="tela"
-                    value="Tela"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="tela" className="ml-2 te    ">
-                    Tela
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="naoLiga"
-                    value="Nao Liga"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="naoLiga" className="ml-2 text-sm">
-                    Não Liga
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="engineGeral"
-                    value="Engine"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div>
-              <h3 className=" font-semibold text-md mb-1">Defeitos Gerais</h3>
-              <div className="grid grid-cols-4">
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="carcaca"
-                    value="Carcaca"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="carcaca" className="ml-2 text-sm">
-                    Carcaca
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="tela"
-                    value="Tela"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="tela" className="ml-2 te  ">
-                    Tela
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="naoLiga"
-                    value="Nao Liga"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="naoLiga" className="ml-2 text-sm">
-                    Não Liga
-                  </label>
-                </div>
-                <div className="flex gap-2 items-center justify-start mb-1">
-                  <input
-                    type="checkbox"
-                    id="engineGeral"
-                    value="Engine"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
-                  </label>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
-        </div>
-        <div className="flex justify-end gap-4 mt-6">
+        ))}
+
+        {/* Botões de Ação */}
+        <div className="flex justify-end mt-8 gap-4">
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded text-[#00ABAD]"
+            className="bg-gray-300 text-gray-800 font-semibold px-6 py-2 rounded-lg hover:brightness-105 transition"
           >
             Cancelar
           </button>
           <button
             onClick={() => onSave(formData)}
-            className="px-4 py-2 rounded bg-teal-500 text-white"
+            className="bg-teal-700 text-white font-semibold px-6 py-2 rounded-lg hover:brightness-110 transition"
           >
-            Finalizar
+            Confirmar
           </button>
         </div>
       </div>
