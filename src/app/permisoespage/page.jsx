@@ -5,9 +5,44 @@ import SideBarMenu from "../../Componentes/Menu/SideBarMenu";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { set } from 'mongoose';
+import Pen from '../IMG/Pen.svg';
 
 export default function permisoespage() {
     const [menuOpen, setMenuOpen] = useState(false);
+     const handleAdicionar = () => {
+        setClienteEditando(null);
+        setModalOpen(true);
+      };
+    
+      const handleEditar = (cliente) => {
+        setClienteEditando(cliente);
+        setModalOpen(true);
+      };
+    
+      const handleSalvar = (novoCliente) => {
+        if (clienteEditando) {
+      
+          setClientes(clientes.map(c => c.codigoCliente === clienteEditando.codigoCliente ? novoCliente : c));
+        } else {
+         
+          setClientes([...clientes, novoCliente]);
+        }
+        setModalOpen(false);
+      };
+
+      const handleRemover = () => {
+        const listaAtual = clientes.length > 0 ? clientes : empresas;
+      
+        if (selectedRow !== null) {
+          const novaLista = [...listaAtual];
+          novaLista.splice(selectedRow, 1);
+          setClientes(novaLista);
+          setSelectedRow(null);
+        }
+      };
+
+      const [filtro, setFiltro] = useState("");
+
     return (
         <div className="relative w-screen h-screen flex bg-gray-100 overflow-hiden">
             {/* Background */}
@@ -31,7 +66,61 @@ export default function permisoespage() {
                     <Menu size={28} />
                 </button>
             )}
-            
-        </div>
+            {/* aplicação */}
+            <div className='relative z-10'>
+                <h1 className='w-screen pl-7 pt-7 font-semibold text-3xl text-white flex justify-start items-center'>Permissões</h1>
+                {/* botões */}
+                    <div className="flex gap-4 mb-10 mt-10 pl-7">
+                        <button onClick={handleAdicionar} className="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-2 px-4 rounded">
+                            + Adicionar
+                        </button>
+                        <button
+                            onClick={() => {
+                                if (selectedRow !== null) {
+                                    handleEditar((clientes.length > 0 ? clientes : empresas)[selectedRow]);
+                                }
+                            }}
+                            className="flex items-center gap-0 bg-[#2C7172] hover:bg-teal-600 border border-white text-white font-semibold py-2 px-2 rounded">
+                            <Image
+                                src={Pen}
+                                alt="Pen"
+                                width={30}
+                                height={30}
+                                className="h-8 w-8"
+                            />
+                            Editar
+                        </button>
+                        <button
+                            onClick={handleRemover}
+                            className="bg-[#2C7172] hover:bg-red-600 border border-white text-white font-semibold py-2 px-4 rounded"
+                        >
+                            X Remover
+                        </button>
+                        <input
+                            type="text"
+                            placeholder="Filtrar por cliente"
+                            value={filtro}
+                            onChange={(e) => setFiltro(e.target.value)}
+                            className="bg-white text-[#2C7172] px-4 py-2 rounded border border-gray-300 focus:outline-none focus:border-white"
+                        />
+                    </div>
+                    <div>
+                        <div className='flex w-screen pl-7 gap-[10rem] border-b-[1px] border-solid border-white '>
+                            <h2 className='flex items-center font-medium text-[1.3rem] capitalize text-white'><span className='block w-[15px] h-[15px] bg-white rounded-full mr-9 '></span>nome da função</h2>
+                            <h2 className=' font-medium text-[1rem] capitalize text-white'>usuários atribuidos</h2>
+                        </div>
+                         <div className='flex w-screen pl-7 gap-[15rem] my-3'>
+                        <h4 className='flex items-center  text-[1rem] capitalize text-white'><span className='block w-[10px] h-[10px] bg-white rounded-full mr-10' ></span>administrador</h4>
+                        <p className='text-white capitalize'>fulano da silva</p>
+                    </div>
+                      <div className='flex w-screen pl-7 gap-[17rem]'>
+                        <h4 className='flex items-center  text-[1rem] capitalize text-white'><span className='block w-[10px] h-[10px] bg-white rounded-full mr-10'></span>analista</h4>
+                        <p className='text-white capitalize'>fulano da silva <span className='text-cyan-400 cursor-pointer ml-1'>+4</span></p>
+                    </div>
+                    </div>
+                
+            </div>
+            </div>
     );
 }
+        
