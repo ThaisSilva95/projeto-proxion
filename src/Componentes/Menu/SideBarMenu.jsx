@@ -31,6 +31,15 @@ function SidebarMenu({ menuOpen, setMenuOpen }) {
           <ul className="ml-4 space-y-1 mt-1 text-gray-600">
             <li>
               <a
+                href="/telainicial"
+                className={`hover:text-[#00A7B2] ${pathname === "/telainicial" ? "text-[#00A7B2] font-bold" : ""
+                  }`}
+              >
+                Tela Inicial
+              </a>
+            </li>
+            <li>
+              <a
                 href="/iniciarvistoria"
                 className={`hover:text-[#00A7B2] ${pathname === "/iniciarvistoria" ? "text-[#00A7B2] font-bold" : ""
                   }`}
@@ -117,7 +126,10 @@ function SidebarMenu({ menuOpen, setMenuOpen }) {
         </div>
         <div>
           <h2 className="text-gray-600 font-bold">
-            <a href="/" className="hover:text-[#00A7B2]">
+            <a href="/permissoes" 
+            className={`hover:text-[#00A7B2] ${pathname === "/permissoes" ? "text-[#00A7B2] font-bold" : ""
+                  }`}
+            >
               Permissões
             </a>
           </h2>
