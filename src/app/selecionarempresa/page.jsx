@@ -191,7 +191,7 @@ export default function SelectCompanyPage() {
   };
 
   return (
-    <div className="relative min-h-screen w-screen flex flex-col items-center p-4 lg:py-8 gap-3 overflow-y-auto">
+    <div className="relative min-h-screen w-screen flex flex-col items-center justify-center p-4 lg:py-8 gap-3 overflow-y-auto">
       <h2 className="text-2xl font-bold mb-3 mt-10 text-[#ffffff]">
         Selecione a empresa
       </h2>

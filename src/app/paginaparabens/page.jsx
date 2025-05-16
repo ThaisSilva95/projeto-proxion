@@ -6,8 +6,8 @@ import logo from "../IMG/LOGOBG.png";
 export default function PaginaParabens() {
   return (
     <div className="relative z-10 flex flex-col flex-1 items-center justify-center h-full p-4 text-white max-w-full overflow-y-auto mt-0">
-      <div className="flex items-center gap-5 mt-[-80px] md:mt-0">
-        <div className="mb-10 md:mb-5">
+      <div className="flex items-center gap-5">
+        <div className="mb-20 ">
           <Image src={logo} alt="logo" width={180} height={100} />
         </div>
       </div>

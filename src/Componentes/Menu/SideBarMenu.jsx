@@ -12,13 +12,13 @@ function SidebarMenu({ menuOpen, setMenuOpen }) {
 
   return (
     <div
-      className={`fixed md:relative z-20 h-full bg-[#D9D9D9] text-black p-10 w-64 transition-transform duration-300 ease-in-out
-      ${menuOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
+      className={`fixed lg:relative z-20 h-full bg-[#D9D9D9] text-black p-10 w-64 transition-transform duration-300 ease-in-out
+      ${menuOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}
     >
       <div className="flex items-center justify-start mb-10">
         <Image src={LogoTransparente} alt="Logo" width={120} height={60} />
         <button
-          className="md:hidden absolute top-4 right-4"
+          className="lg:hidden absolute top-4 right-4"
           onClick={() => setMenuOpen(false)}
         >
           <X size={24} />
@@ -48,7 +48,9 @@ function SidebarMenu({ menuOpen, setMenuOpen }) {
               </a>
             </li>
             <li>
-              <a href="/" className="hover:text-[#00A7B2] ">
+              <a href="/retomarvistoria"
+                className={`hover:text-[#00A7B2] ${pathname === "/retomarvistoria" ? "text-[#00A7B2] font-bold" : ""
+                  }`}>
                 Retomar Vistoria
               </a>
             </li>
