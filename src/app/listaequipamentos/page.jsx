@@ -50,7 +50,7 @@ export default function ListaDeEquipamentos() {
   const chartData = [{ name: "Progresso", value: percentual, fill: "#14b8a6" }];
 
   return (
-    <div className="relative w-screen flex flex-col items-center justify-start bg-gray-100 pt-6 overflow-auto z-10 bg-transparent pb-20">
+    <div className="relative w-screen flex flex-col items-center  bg-gray-100 pt-6 overflow-auto z-10 bg-transparent pb-20 md:justify-center">
 
       {/* Conteúdo acima da lista */}
       <div className="z-10 flex flex-col justify-between gap-3 mt-1">

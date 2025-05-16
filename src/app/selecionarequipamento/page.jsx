@@ -196,8 +196,8 @@ function SelectEquipment() {
   };
 
   return (
-    <div className="relative w-screen h-screen flex  flex-col items-center p-4 lg:py-8 gap-3">
-      <h2 className="text-2xl font-bold mb-3 mt-16 text-[#ffffff]">
+    <div className="relative w-screen h-screen flex justify-center flex-col items-center p-4 lg:py-8 gap-3">
+      <h2 className="text-2xl font-bold mb-3 text-[#ffffff]">
         Selecionar Equipamento
       </h2>
 

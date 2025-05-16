@@ -27,7 +27,7 @@ const EquipmentStatusForm = () => {
   const intensityOptions = ["Leve", "Médio", "Grave"];
 
   return (
-    <div className="relative z-10 flex flex-col flex-1 items-center justify-between h-full p-4 text-white max-w-full overflow-y-auto mt-5">
+    <div className="relative z-10 flex flex-col flex-1 items-center justify-center text-white max-w-full overflow-y-auto mt-5">
       <div className="max-w-4xl text-white p-6 space-y-4">
         <div className="text-center rounded-lg bg-white bg-opacity-50 shadow-lg p-3">
           <p>Equipamento: Leitor Barcode</p>
