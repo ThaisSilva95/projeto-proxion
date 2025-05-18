@@ -17,8 +17,8 @@ export async function GET(request) {
     const client = new MongoClient(uri);
     
     await client.connect();
-    const database = client.db('ProxionDevDNC');
-    const collection = database.collection('Proxion2');
+    const database = client.db('ProxionDNC');
+    const collection = database.collection('Selecionar_Empresa');
     
     // Buscar unidades do cliente específico
     const unidades = await collection.distinct('Unidade', { Cliente: cliente });

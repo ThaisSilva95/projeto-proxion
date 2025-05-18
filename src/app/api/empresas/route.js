@@ -22,8 +22,8 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const query = searchParams.get('q') || '';
     
-    const database = client.db("ProxionDevDNC");
-    const collection = database.collection("Proxion2");
+    const database = client.db("ProxionDnc");
+    const collection = database.collection("Selecionar_Empresa");
     
     // Construir a consulta baseada nos parâmetros
     const filter = query

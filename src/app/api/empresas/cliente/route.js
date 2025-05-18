@@ -7,8 +7,8 @@ export async function GET() {
     const client = new MongoClient(uri);
     
     await client.connect();
-    const database = client.db('ProxionDevDNC');
-    const collection = database.collection('Proxion2');
+    const database = client.db('ProxionDnc');
+    const collection = database.collection('Selecionar_Empresa');
     
     // Buscar todos os clientes distintos
     const clientes = await collection.distinct('Cliente');
