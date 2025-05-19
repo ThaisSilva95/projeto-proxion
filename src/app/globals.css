@@ -16,8 +16,8 @@
   }
 }
 html, body {
-  padding: 0;
-  margin: 0;
+  padding: 0 !important;
+  margin: 0 !important;
   height: 100%;
   color: black;
 }
@@ -25,15 +25,17 @@ html, body {
 .page {
   width: 795px;
   height: 1122px;
-  margin: 0;
-  padding:10px;
+  margin: 0 !important;
+  padding:10px !important;
   background: white;
   position: relative;
   overflow: hidden;
+  
 }
 
 .page-break {
-  page-break-after: always;
+  page-break-after: never;
+  padding:10px !important;
 }
 
 #relatorio {
@@ -55,7 +57,7 @@ html, body {
 
   .page-break {
     page-break-after: always;
-  
+
   }
 
   /* Remover margem/padding que pode causar espaços extras */
