@@ -12,7 +12,8 @@ import {
 } from "recharts";
 import FiltroModal from "../../Componentes/ModalFilter/filtromodal";
 import Link from "next/link";
-import ModalSaida from '../../Componentes/ModalSaida/modalsaida'
+import ModalSaida from '../../Componentes/ModalSaida/modalsaida';
+import ModalUpload from "../../Componentes/ModalImportar/importar";
 
 
 
@@ -20,6 +21,8 @@ export default function ListaDeEquipamentos() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalAberto, setModalAberto] = useState(false);
   const [modalSaidaAberto, setModalSaidaAberto] = useState(false);
+  const [modalUploadAberto, setModalUploadAberto] = useState(false);
+
 
 
   const equipamentos = [
@@ -121,16 +124,17 @@ export default function ListaDeEquipamentos() {
         </table>
 
         {/* Botões de ação */}
-        <div className="flex justify-between items-center mt-6">
-          <button className="bg-white px-10  py-3 rounded-xl shadow-md">
+        <div className="flex justify-center items-center mt-6 gap-8">
+          <button
+            onClick={() => setModalUploadAberto(true)}
+            className="bg-white px-16 py-3 rounded-xl shadow-md"
+          >
             <span className="text-teal-700 text-xl">+</span>
           </button>
-          <button className="bg-white px-10  py-3 rounded-xl shadow-md">
-            <span className="text-teal-700">🔍</span>
-          </button>
+
           <button
             onClick={() => setModalAberto(true)}
-            className="bg-white px-10  py-3 rounded-xl shadow-md">
+            className="bg-white px-16  py-3 rounded-xl shadow-md">
             <span className="text-teal-700">Filtro</span>
           </button>
           <FiltroModal isOpen={modalAberto} onClose={() => setModalAberto(false)} />
@@ -149,6 +153,11 @@ export default function ListaDeEquipamentos() {
         <ModalSaida
           isOpen={modalSaidaAberto}
           onClose={() => setModalSaidaAberto(false)}
+        />
+
+        <ModalUpload
+          isOpen={modalUploadAberto}
+          onClose={() => setModalUploadAberto(false)}
         />
 
       </div>
