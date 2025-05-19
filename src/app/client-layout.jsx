@@ -12,11 +12,13 @@ function ClientLayout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const [shouldShowMenu, setShouldShowMenu] = useState(false);
+  
 
   useEffect(() => {
     if (
       pathname === "/" ||
-      pathname === "/login" 
+      pathname === "/login" ||
+      pathname === "/relatorio"
     ) {
       setShouldShowMenu(false);
     } else {
