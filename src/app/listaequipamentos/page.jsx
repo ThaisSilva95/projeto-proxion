@@ -10,11 +10,18 @@ import {
 import FiltroModal from "../../Componentes/ModalFilter/filtromodal";
 import Link from "next/link";
 import ModalSaida from '../../Componentes/ModalSaida/modalsaida';
+<<<<<<< HEAD
 import { useSearchParams } from 'next/navigation';
+=======
+import ModalUpload from "../../Componentes/ModalImportar/importar";
+
+
+>>>>>>> 8981c731f36a139f7516b2f59730bb3f401754f8
 
 export default function ListaDeEquipamentos() {
   const [modalAberto, setModalAberto] = useState(false);
   const [modalSaidaAberto, setModalSaidaAberto] = useState(false);
+<<<<<<< HEAD
   const [equipamentos, setEquipamentos] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState(null);
@@ -36,6 +43,10 @@ export default function ListaDeEquipamentos() {
         unidade,
         subLocal: subLocal || ''
       });
+=======
+  const [modalUploadAberto, setModalUploadAberto] = useState(false);
+
+>>>>>>> 8981c731f36a139f7516b2f59730bb3f401754f8
 
       buscarEquipamentos(cliente, unidade, subLocal);
     } else {
@@ -223,6 +234,7 @@ export default function ListaDeEquipamentos() {
         )}
 
         {/* Botões de ação */}
+<<<<<<< HEAD
         <div className="flex justify-between items-center mt-6">
           <button className="bg-white px-10 py-3 rounded-xl shadow-md">
             <span className="text-teal-700 text-xl">+</span>
@@ -233,6 +245,19 @@ export default function ListaDeEquipamentos() {
           <button
             onClick={() => setModalAberto(true)}
             className="bg-white px-10 py-3 rounded-xl shadow-md">
+=======
+        <div className="flex justify-center items-center mt-6 gap-8">
+          <button
+            onClick={() => setModalUploadAberto(true)}
+            className="bg-white px-16 py-3 rounded-xl shadow-md"
+          >
+            <span className="text-teal-700 text-xl">+</span>
+          </button>
+
+          <button
+            onClick={() => setModalAberto(true)}
+            className="bg-white px-16  py-3 rounded-xl shadow-md">
+>>>>>>> 8981c731f36a139f7516b2f59730bb3f401754f8
             <span className="text-teal-700">Filtro</span>
           </button>
           <FiltroModal 
@@ -255,6 +280,15 @@ export default function ListaDeEquipamentos() {
           isOpen={modalSaidaAberto}
           onClose={() => setModalSaidaAberto(false)}
         />
+<<<<<<< HEAD
+=======
+
+        <ModalUpload
+          isOpen={modalUploadAberto}
+          onClose={() => setModalUploadAberto(false)}
+        />
+
+>>>>>>> 8981c731f36a139f7516b2f59730bb3f401754f8
       </div>
     </div>
   );
