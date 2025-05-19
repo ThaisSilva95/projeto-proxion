@@ -24,8 +24,8 @@ export async function GET(request) {
     const client = new MongoClient(uri);
     
     await client.connect();
-    const database = client.db('ProxionDevDNC');
-    const collection = database.collection('Proxion1');
+    const database = client.db('ProxionDNC');
+    const collection = database.collection('Equipamentos');
     
     const equipamento = await collection.findOne({ "Numero de serie": serie });
     

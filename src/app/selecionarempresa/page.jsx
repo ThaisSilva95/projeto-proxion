@@ -7,6 +7,8 @@ import InputSelect from "../../Componentes/InputSelect/InputSelect";
 import Button from "../../Componentes/Button/Button";
 import LogoCompany from "../IMG/Logo-jnj.png";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+
 
 
 export default function SelectCompanyPage() {
@@ -16,6 +18,8 @@ export default function SelectCompanyPage() {
   const [subLocais, setSubLocais] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const router = useRouter();
+
 
   // Estados para seleções
   const [clienteSelecionado, setClienteSelecionado] = useState("");
@@ -71,7 +75,7 @@ export default function SelectCompanyPage() {
       setError(null);
 
       try {
-        const url = `/api/empresas/cliente/unidade?cliente=${encodeURIComponent(
+        const url = `/api/empresas/unidade?cliente=${encodeURIComponent(
           clienteSelecionado
         )}`;
         console.log("Buscando unidades URL:", url); // Debug
@@ -118,7 +122,7 @@ export default function SelectCompanyPage() {
       setError(null);
 
       try {
-        const url = `/api/empresas/cliente/unidade/sub-local?cliente=${encodeURIComponent(
+        const url = `/api/empresas/sub-local?cliente=${encodeURIComponent(
           clienteSelecionado
         )}&unidade=${encodeURIComponent(unidadeSelecionada)}`;
         console.log("Buscando sublocais URL:", url); // Debug
@@ -179,6 +183,14 @@ export default function SelectCompanyPage() {
       return;
     }
 
+    // Salvar seleções no localStorage
+
+    localStorage.setItem("empresaSelecionada", JSON.stringify({
+      cliente: clienteSelecionado,
+      unidade: unidadeSelecionada,
+      subLocal: subLocalSelecionado,
+    }));
+
     // Aqui você pode navegar para a próxima página ou enviar os dados
     console.log("Empresa selecionada:", {
       cliente: clienteSelecionado,
@@ -186,8 +198,8 @@ export default function SelectCompanyPage() {
       subLocal: subLocalSelecionado,
     });
 
-    // Exemplo de navegação para a próxima página
-    // router.push('/proxima-pagina');
+    router.push(`/listaequipamentos?cliente=${clienteSelecionado}&unidade=${unidadeSelecionada}&subLocal=${subLocalSelecionado}`);
+
   };
 
   return (
@@ -247,21 +259,16 @@ export default function SelectCompanyPage() {
             {error}
           </div>
         )}
-        <Link href="/listaequipamentos">
-          <Button
-            textButton="Próximo"
-            type="submit"
-            disabled={
-              !clienteSelecionado ||
-              !unidadeSelecionada ||
-              !subLocalSelecionado ||
-              loading
-            }
-          >
-          </Button>
-        </Link>
-
-
+        <Button
+          textButton="Próximo"
+          type="submit"
+          disabled={
+            !clienteSelecionado ||
+            !unidadeSelecionada ||
+            !subLocalSelecionado ||
+            loading
+          }
+        />
       </form>
       {loading && <div className="mt-4 text-white">Carregando...</div>}
 

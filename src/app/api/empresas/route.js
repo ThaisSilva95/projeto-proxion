@@ -1,19 +1,3 @@
-import { MongoClient } from 'mongodb';
-
-// Conexão com MongoDB
-const uri = "mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000";
-let client = null;
-let clientPromise = null;
-
-// Função para conectar ao MongoDB
-async function connectToDatabase() {
-  if (clientPromise) return clientPromise;
-  
-  client = new MongoClient(uri);
-  clientPromise = client.connect();
-  return clientPromise;
-}
-
 export async function GET(request) {
   try {
     // Conectar ao MongoDB
@@ -23,15 +7,15 @@ export async function GET(request) {
     const query = searchParams.get('q') || '';
     
     const database = client.db("ProxionDnc");
-    const collection = database.collection("Selecionar_Empresa");
+    const collection = database.collection("Proxion");
     
     // Construir a consulta baseada nos parâmetros
     const filter = query
       ? {
           $or: [
-            { Cliente: { $regex: query, $options: 'i' } },
-            { Unidade: { $regex: query, $options: 'i' } },
-            { "Sub-local": { $regex: query, $options: 'i' } }
+            { "Cod.Cliente": { $regex: query, $options: 'i' } },
+            { "Cod.Unidade": { $regex: query, $options: 'i' } },
+            { "Cod.Sublocal": { $regex: query, $options: 'i' } }
           ]
         }
       : {};

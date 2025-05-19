@@ -72,19 +72,19 @@ function SidebarMenu({ menuOpen, setMenuOpen }) {
               </a>
             </li>
             <li>
-              <a href="/selecionarequipamento" 
-              className={`hover:text-[#00A7B2] ${pathname === "/selecionarequipamento" ? "text-[#00A7B2] font-bold" : ""
-                  }`}
-              >
-                Selecionar Equipamento
-              </a>
-            </li>
-            <li>
               <a href="/listaequipamentos" 
               className={`hover:text-[#00A7B2] ${pathname === "/listaequipamentos" ? "text-[#00A7B2] font-bold" : ""
                   }`}
               >
                 Lista de Equipamentos
+              </a>
+            </li>
+            <li>
+              <a href="/selecionarequipamento" 
+              className={`hover:text-[#00A7B2] ${pathname === "/selecionarequipamento" ? "text-[#00A7B2] font-bold" : ""
+                  }`}
+              >
+                Selecionar Equipamento
               </a>
             </li>
             <li>

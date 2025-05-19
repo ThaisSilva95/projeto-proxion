@@ -20,6 +20,20 @@ function SelectEquipment() {
   const [serieSelecionada, setSerieSelecionada] = useState("");
   const [serieManual, setSerieManual] = useState("");
 
+  // Carregar informações da empresa selecionada
+useEffect(() => {
+  try {
+    const empresaSelecionada = localStorage.getItem("empresaSelecionada");
+    if (empresaSelecionada) {
+      const { cliente, unidade, subLocal } = JSON.parse(empresaSelecionada);
+      console.log("Dados da empresa carregados:", { cliente, unidade, subLocal });
+      // Você pode adicionar um state para armazenar esses dados se precisar exibir na tela
+    }
+  } catch (error) {
+    console.error("Erro ao carregar dados da empresa:", error);
+  }
+}, []);
+  
   // Buscar tipos de equipamentos ao carregar a página
   useEffect(() => {
     const fetchTiposEquipamento = async () => {
@@ -184,6 +198,13 @@ function SelectEquipment() {
       return;
     }
 
+    // Salvar seleções no localStorage
+    localStorage.setItem("equipamentoSelecionado", JSON.stringify({
+      tipo: tipoSelecionado,
+      modelo: modeloSelecionado,
+      numeroSerie,
+    }));
+
     // Aqui você pode navegar para a próxima página ou enviar os dados para o servidor
     console.log("Dados selecionados:", {
       tipo: tipoSelecionado,
@@ -250,10 +271,11 @@ function SelectEquipment() {
             {error}
           </div>
         )}
-      <Link href="/equipamentoselecionado">
+      <Link href="/listaequipamentos">
         <Button
           textButton="Selecionar"
-          type="submit"
+          type="button"
+          onClick={handleSubmit}
           disabled={
             !tipoSelecionado ||
             !modeloSelecionado ||

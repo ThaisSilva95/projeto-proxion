@@ -22,8 +22,8 @@ export async function GET(request) {
       console.log("API modelos - -conectando ao MongoDB...");
   
       await client.connect();
-        const database = client.db("ProxionDevDNC");
-        const collection = database.collection("Proxion1");
+        const database = client.db("ProxionDnc");
+        const collection = database.collection("Proxion");
     
         console.log(`API modelos - buscando modelos para categoria "${categoria}"`)
 

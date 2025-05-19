@@ -8,10 +8,10 @@ export async function GET() {
     
     await client.connect();
     const database = client.db('ProxionDnc');
-    const collection = database.collection('Selecionar_Empresa');
+    const collection = database.collection('Proxion');
     
     // Buscar todos os clientes distintos
-    const clientes = await collection.distinct('Cliente');
+    const clientes = await collection.distinct('Cod.Cliente');
     
     await client.close();
     

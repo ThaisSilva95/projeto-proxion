@@ -8,7 +8,7 @@ export async function GET(request) {
     
     if (!cliente) {
       return NextResponse.json(
-        { error: 'Parâmetro cliente é obrigatório' },
+        { error: 'Parâmetros cliente são obrigatórios' },
         { status: 400 }
       );
     }
@@ -17,20 +17,22 @@ export async function GET(request) {
     const client = new MongoClient(uri);
     
     await client.connect();
-    const database = client.db('ProxionDNC');
-    const collection = database.collection('Selecionar_Empresa');
+    const database = client.db('ProxionDnc');
+    const collection = database.collection('Proxion');
     
-    // Buscar unidades do cliente específico
-    const unidades = await collection.distinct('Unidade', { Cliente: cliente });
+    // Buscar unidade específicos
+    const unidade = await collection.distinct('Cod.Unidade', { 
+      "Cod.Cliente": cliente
+    });
     
     await client.close();
     
-    return NextResponse.json(unidades);
+    return NextResponse.json(unidade);
   } catch (error) {
-    console.error('Erro ao buscar unidades:', error);
+    console.error('Erro ao buscar unidade:', error);
     
     return NextResponse.json(
-      { error: 'Erro ao buscar unidades' },
+      { error: 'Erro ao buscar unidade' },
       { status: 500 }
     );
   }
