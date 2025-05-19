@@ -29,9 +29,9 @@ export default function ClientModal({
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 text-[#00ABAD]">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex w-full h-full justify-center items-center z-50 text-[#00ABAD]">
       <div
-        className="relative w-[912px] p-8 bg-white rounded-lg shadow-lg"
+        className="relative w-[912px] h-[95vh] overflow-y-auto p-8 bg-white rounded-lg shadow-lg"
         style={{
           backgroundImage: `url(${BGModal.src})`,
           backgroundSize: "cover",
@@ -42,12 +42,12 @@ export default function ClientModal({
         <button className="absolute top-4 right-4 text-xl" onClick={onClose}>
           X
         </button>
-        <h2 className="text-2xl font-bold text-center mb-8 ">
+        <h2 className="text-xl font-bold text-center mb-4 ">
           Cadastro de Equipamento e Defeitos
         </h2>
         <div className="flex flex-row justify-between items-center gap-4 mb-6">
           <div className="flex flex-col justify-start w-1/2">
-            <label className="text-lg font-semibold mb-1" htmlFor="equipamento">
+            <label className="text-md font-semibold mb-1" htmlFor="equipamento">
               Tipo de Equipamento
             </label>
             <input
@@ -60,17 +60,17 @@ export default function ClientModal({
               }
             />
           </div>
-          <button className=" text-white font-medium text-lg bg-[#FDA417] w-[170px] h-[36px] rounded-lg">
+          <button className=" text-white font-medium text-lg bg-[#FDA417] hover:bg-[#F7B500] w-[170px] h-[36px] rounded-lg">
             Adicionar Defeito
           </button>
         </div>
         <div>
-          <h2 className="text-lg font-semibold mb-2">
+          <h2 className="text-md font-semibold mb-2">
             Selecione os defeitos possíveis:
           </h2>
-          <div className="grid grid-rows-3">
+          <div className="flex flex-col gap-5">
             <div>
-              <h3 className=" font-semibold text-md mb-1">Defeitos Gerais</h3>
+              <h3 className=" font-semibold text-sm">Defeitos Gerais</h3>
               <div className="grid grid-cols-4">
                 <div className="flex gap-2 items-center justify-start mb-1">
                   <input
@@ -79,7 +79,7 @@ export default function ClientModal({
                     value="Carcaca"
                     onChange={handleCheckboxChange}
                   />
-                  <label htmlFor="carcaca" className="ml-2 text-sm">
+                  <label htmlFor="carcaca" className=" text-sm">
                     Carcaca
                   </label>
                 </div>
@@ -90,8 +90,8 @@ export default function ClientModal({
                     value="Tela"
                     onChange={handleCheckboxChange}
                   />
-                  <label htmlFor="tela" className="ml-2 text-sm">
-                    Tela
+                  <label htmlFor="tela" className=" text-sm">
+                    Comunicação
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -101,8 +101,8 @@ export default function ClientModal({
                     value="Nao Liga"
                     onChange={handleCheckboxChange}
                   />
-                  <label htmlFor="naoLiga" className="ml-2 text-sm">
-                    Não Liga
+                  <label htmlFor="naoLiga" className=" text-sm">
+                    Software
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -113,7 +113,7 @@ export default function ClientModal({
                     onChange={handleCheckboxChange}
                   />
                   <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
+                    Configuração
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -124,7 +124,7 @@ export default function ClientModal({
                     onChange={handleCheckboxChange}
                   />
                   <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
+                    Tela
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -135,7 +135,7 @@ export default function ClientModal({
                     onChange={handleCheckboxChange}
                   />
                   <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
+                    Borracha de proteção
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -146,7 +146,7 @@ export default function ClientModal({
                     onChange={handleCheckboxChange}
                   />
                   <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
+                    Vídeo de Engine
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -157,7 +157,7 @@ export default function ClientModal({
                     onChange={handleCheckboxChange}
                   />
                   <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
+                    Teclado
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -168,7 +168,7 @@ export default function ClientModal({
                     onChange={handleCheckboxChange}
                   />
                   <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
+                    Não liga
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -179,7 +179,7 @@ export default function ClientModal({
                     onChange={handleCheckboxChange}
                   />
                   <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
+                    trava de Bateria
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -190,7 +190,7 @@ export default function ClientModal({
                     onChange={handleCheckboxChange}
                   />
                   <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
+                    Antena RFID
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -201,7 +201,7 @@ export default function ClientModal({
                     onChange={handleCheckboxChange}
                   />
                   <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
+                    Outros
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -217,8 +217,9 @@ export default function ClientModal({
                 </div>
               </div>
             </div>
+            <div className="h-[1px] w-full bg-[#00ABAD]"></div>
             <div>
-              <h3 className=" font-semibold text-md mb-1">Defeitos Gerais</h3>
+              <h3 className=" font-semibold text-sm">Impressora</h3>
               <div className="grid grid-cols-4">
                 <div className="flex gap-2 items-center justify-start mb-1">
                   <input
@@ -227,8 +228,8 @@ export default function ClientModal({
                     value="Carcaca"
                     onChange={handleCheckboxChange}
                   />
-                  <label htmlFor="carcaca" className="ml-2 text-sm">
-                    Carcaca
+                  <label htmlFor="carcaca" className=" text-sm">
+                    Cabeça de Impressão
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -238,9 +239,8 @@ export default function ClientModal({
                     value="Tela"
                     onChange={handleCheckboxChange}
                   />
-                  <label htmlFor="tela" className="ml-2 text-sm">
-                    {" "}
-                    Tela
+                  <label htmlFor="tela" className=" text-sm">
+                    Sensor do Ribbon
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -250,8 +250,8 @@ export default function ClientModal({
                     value="Nao Liga"
                     onChange={handleCheckboxChange}
                   />
-                  <label htmlFor="naoLiga" className="ml-2 text-sm">
-                    Não Liga
+                  <label htmlFor="naoLiga" className=" text-sm">
+                    Sensor da tampa
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -261,8 +261,8 @@ export default function ClientModal({
                     value="Engine"
                     onChange={handleCheckboxChange}
                   />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
+                  <label htmlFor="engineGeral" className="text-sm">
+                    Sensor da Cabeça de Impressão
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -272,8 +272,8 @@ export default function ClientModal({
                     value="Engine"
                     onChange={handleCheckboxChange}
                   />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
+                  <label htmlFor="engineGeral" className="text-sm">
+                    Rolete
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -283,8 +283,8 @@ export default function ClientModal({
                     value="Engine"
                     onChange={handleCheckboxChange}
                   />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
+                  <label htmlFor="engineGeral" className="text-sm">
+                    Cutter
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -294,8 +294,8 @@ export default function ClientModal({
                     value="Engine"
                     onChange={handleCheckboxChange}
                   />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
+                  <label htmlFor="engineGeral" className="text-sm">
+                    Sensor de Mídia
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -305,8 +305,8 @@ export default function ClientModal({
                     value="Engine"
                     onChange={handleCheckboxChange}
                   />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
+                  <label htmlFor="engineGeral" className="text-sm">
+                    Suporte Mídia
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -316,8 +316,8 @@ export default function ClientModal({
                     value="Engine"
                     onChange={handleCheckboxChange}
                   />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
+                  <label htmlFor="engineGeral" className="text-sm">
+                    Módulo RFID
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -327,8 +327,8 @@ export default function ClientModal({
                     value="Engine"
                     onChange={handleCheckboxChange}
                   />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
+                  <label htmlFor="engineGeral" className="text-sm">
+                    Rebobinador/Pell off
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -338,8 +338,8 @@ export default function ClientModal({
                     value="Engine"
                     onChange={handleCheckboxChange}
                   />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
+                  <label htmlFor="engineGeral" className="text-sm">
+                    Suporte Ribbon
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -349,8 +349,8 @@ export default function ClientModal({
                     value="Engine"
                     onChange={handleCheckboxChange}
                   />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
+                  <label htmlFor="engineGeral" className="text-sm">
+                    Trava da Tampa
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -360,15 +360,15 @@ export default function ClientModal({
                     value="Engine"
                     onChange={handleCheckboxChange}
                   />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
+                  <label htmlFor="engineGeral" className="text-sm">
+                    Trava da Cabeça de Impressão
                   </label>
                 </div>
               </div>
             </div>
-
+            <div className="h-[1px] w-full bg-[#00ABAD]"></div>
             <div>
-              <h3 className=" font-semibold text-md mb-1">Defeitos Gerais</h3>
+              <h3 className=" font-semibold text-sm">Leitores</h3>
               <div className="grid grid-cols-4">
                 <div className="flex gap-2 items-center justify-start mb-1">
                   <input
@@ -377,8 +377,8 @@ export default function ClientModal({
                     value="Carcaca"
                     onChange={handleCheckboxChange}
                   />
-                  <label htmlFor="carcaca" className="ml-2 text-sm">
-                    Carcaca
+                  <label htmlFor="carcaca" className="text-sm">
+                    Suporte Device
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -388,8 +388,8 @@ export default function ClientModal({
                     value="Tela"
                     onChange={handleCheckboxChange}
                   />
-                  <label htmlFor="tela" className="ml-2 te    ">
-                    Tela
+                  <label htmlFor="tela" className=" text-sm">
+                    Firmware
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -399,8 +399,8 @@ export default function ClientModal({
                     value="Nao Liga"
                     onChange={handleCheckboxChange}
                   />
-                  <label htmlFor="naoLiga" className="ml-2 text-sm">
-                    Não Liga
+                  <label htmlFor="naoLiga" className=" text-sm">
+                    Led
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -410,14 +410,15 @@ export default function ClientModal({
                     value="Engine"
                     onChange={handleCheckboxChange}
                   />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
+                  <label htmlFor="engineGeral" className="text-sm">
+                    Conector de Antena
                   </label>
                 </div>
               </div>
             </div>
+            <div className="h-[1px] w-full bg-[#00ABAD]"></div>
             <div>
-              <h3 className=" font-semibold text-md mb-1">Defeitos Gerais</h3>
+              <h3 className=" font-semibold text-sm">Coletores</h3>
               <div className="grid grid-cols-4">
                 <div className="flex gap-2 items-center justify-start mb-1">
                   <input
@@ -426,8 +427,8 @@ export default function ClientModal({
                     value="Carcaca"
                     onChange={handleCheckboxChange}
                   />
-                  <label htmlFor="carcaca" className="ml-2 text-sm">
-                    Carcaca
+                  <label htmlFor="carcaca" className="text-sm">
+                    LCD
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
@@ -437,30 +438,47 @@ export default function ClientModal({
                     value="Tela"
                     onChange={handleCheckboxChange}
                   />
-                  <label htmlFor="tela" className="ml-2 te  ">
-                    Tela
+                  <label htmlFor="tela" className=" text-sm">
+                    Pinos de Conexão
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div className="h-[1px] w-full bg-[#00ABAD]"></div>
+            <div>
+              <h3 className=" font-semibold text-sm">Diversos</h3>
+              <div className="grid grid-cols-4">
+                <div className="flex gap-2 items-center justify-start mb-1">
+                  <input
+                    type="checkbox"
+                    id="carcaca"
+                    value="Carcaca"
+                    onChange={handleCheckboxChange}
+                  />
+                  <label htmlFor="carcaca" className="text-sm">
+                    Antena
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
                   <input
                     type="checkbox"
-                    id="naoLiga"
-                    value="Nao Liga"
+                    id="tela"
+                    value="Tela"
                     onChange={handleCheckboxChange}
                   />
-                  <label htmlFor="naoLiga" className="ml-2 text-sm">
-                    Não Liga
+                  <label htmlFor="tela" className=" text-sm">
+                    Placa
                   </label>
                 </div>
                 <div className="flex gap-2 items-center justify-start mb-1">
                   <input
                     type="checkbox"
-                    id="engineGeral"
-                    value="Engine"
+                    id="tela"
+                    value="Tela"
                     onChange={handleCheckboxChange}
                   />
-                  <label htmlFor="engineGeral" className="lack text-sm">
-                    Engine
+                  <label htmlFor="tela" className=" text-sm">
+                    Comunicação Ethernet
                   </label>
                 </div>
               </div>
@@ -470,13 +488,13 @@ export default function ClientModal({
         <div className="flex justify-end gap-4 mt-6">
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded text-[#00ABAD]"
+            className="px-4 py-2 rounded text-[#00ABAD] hover:bg-slate-200"
           >
             Cancelar
           </button>
           <button
             onClick={() => onSave(formData)}
-            className="px-4 py-2 rounded bg-teal-500 text-white"
+            className="px-4 py-2 rounded bg-teal-500 hover:bg-teal-600 text-white"
           >
             Finalizar
           </button>
