@@ -4,6 +4,7 @@ import { useState } from "react";
 import InputMask from "react-input-mask";
 import avatar from "../IMG/Avatar.png";
 import Upload from "../IMG/Upload.svg";
+import Button from '../../Componentes/Button/Button'
 
 // file script
 export default function ChangeProfile() {
@@ -35,17 +36,48 @@ export default function ChangeProfile() {
   };
 
   return (
-    <div className="relative z-10 w-screen flex-col h-full flex itens-center">
-      <div className=" flex justify-center items-center gap-x-5 mt-2 mb-5 w-full">
-        <div className="w-32 h-32 rounded-full  relative overflow-hidden">
-          <Image src={avatar} style={{ objectFit: "cover" }} fill />
+    <div className="relative z-10 flex flex-col flex-1 justify-center items-center text-white overflow-y-auto mb-10" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+      <div className=" flex justify-center items-center gap-x-5 mb-6 w-full mt-20 md:mt-0">
+        <div className="w-28 h-28 rounded-full mt-10 relative overflow-hidden md:mt-1">
+          
+          <Image
+            src={avatar}
+            alt="Avatar"
+            fill
+            style={{ objectFit: "cover" }}
+            className="rounded-full"
+          />
+
+          
+          <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536M9 11l6-6m2 2l-6 6m2-6H9v3m0 3h3v3" />
+            </svg>
+          </div>
+
+          
+          <input
+            type="file"
+            accept="image/*"
+            className="absolute inset-0 opacity-0 cursor-pointer"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              
+            }}
+          />
         </div>
 
-        <div>
-          <h1 className="text-white font-bold text-2xl capitalize">
+        <div className="mt-5">
+          <h1 className="text-white font-bold text-lg capitalize">
             Fulano da silva
           </h1>
-          <h2 className="text-white font-light text-lg capitalize">analista</h2>
+          <h2 className="text-white font-light text-l capitalize">analista</h2>
         </div>
       </div>
 
@@ -92,7 +124,9 @@ export default function ChangeProfile() {
             className="w-[350px] h-[42px] bg-white rounded-md text-sky-500 pl-2 outline-sky-500"
           />
         </label>
-        {/* input de arquivo */}
+
+
+
         <div className="mb-5">
           <h2 className="block text-white font-normal capitalize pl-2">
             assinatura
@@ -102,11 +136,10 @@ export default function ChangeProfile() {
             onDragOver={handleOver}
             onDrop={handleDrop}
             onDragLeave={handleDragLeave}
-            className={`w-[350px] h-[150px] bg-white rounded-md border-4 border-dashed border-gray-400 cursor-pointer transition flex flex-col justify-center items-center gap-2 p-5 ${
-              isDragging
-                ? "bg-blues-500 border-white"
-                : "bg-white border-gray-400 cursor-pointer"
-            }`}
+            className={`w-[350px] h-[120px] bg-white rounded-md border-4 border-dashed border-gray-400 cursor-pointer transition flex flex-col justify-center items-center gap-2 p-5 ${isDragging
+              ? "bg-blues-500 border-white"
+              : "bg-white border-gray-400 cursor-pointer"
+              }`}
           >
             <input
               type="file"
@@ -115,28 +148,15 @@ export default function ChangeProfile() {
               onChange={handleArquivo}
             />
             <Image src={Upload} width={30} height={30} />
-            <p className="text-sm text-gray-500 font-medium uppercase text-center">
-              Clique aqui!
-              <span className=" text-sky-500 font-medium uppercase underline block">
-                {" "}
-                ou arraste o arquivo desejado
-              </span>
-            </p>
-            {ArquivoName ? (
-              <p className="text-sm text-gray-700 font-medium text-center">
-                {ArquivoName}
-              </p>
-            ) : (
-              <p className="text-sm text-sky-700 font-medium text-center capitalize underline">
-                nenhum arquivo selecionado
-              </p>
-            )}
+
+
           </label>
         </div>
       </form>
-      <button className="w-[280px] h-[56px] mx-auto bg-colorMainProxion text-white capitalize font-bold rounded-md">
-        alterar perfil
-      </button>
+
+      <Button textButton="Alterar Perfil">
+
+      </Button>
     </div>
   );
 }

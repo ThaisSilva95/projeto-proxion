@@ -45,6 +45,7 @@ export default function ClientModal({
         <h2 className="text-xl font-bold text-center mb-4 ">
           Cadastro de Equipamento e Defeitos
         </h2>
+
         <div className="flex flex-row justify-between items-center gap-4 mb-6">
           <div className="flex flex-col justify-start w-1/2">
             <label className="text-md font-semibold mb-1" htmlFor="equipamento">
@@ -373,9 +374,8 @@ export default function ClientModal({
                 <div className="flex gap-2 items-center justify-start mb-1">
                   <input
                     type="checkbox"
-                    id="carcaca"
-                    value="Carcaca"
                     onChange={handleCheckboxChange}
+                    className="accent-[#00ABAD]"
                   />
                   <label htmlFor="carcaca" className="text-sm">
                     Suporte Device
@@ -496,7 +496,7 @@ export default function ClientModal({
             onClick={() => onSave(formData)}
             className="px-4 py-2 rounded bg-teal-500 hover:bg-teal-600 text-white"
           >
-            Finalizar
+            Confirmar
           </button>
         </div>
       </div>

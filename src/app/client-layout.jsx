@@ -12,12 +12,13 @@ function ClientLayout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const [shouldShowMenu, setShouldShowMenu] = useState(false);
+  
 
   useEffect(() => {
     if (
       pathname === "/" ||
       pathname === "/login" ||
-      pathname === "/paginaparabens"
+      pathname === "/relatorio"
     ) {
       setShouldShowMenu(false);
     } else {
@@ -39,14 +40,14 @@ function ClientLayout({ children }) {
         <SideBarMenu
           menuOpen={menuOpen}
           setMenuOpen={setMenuOpen}
-          className={`fixed md:relative z-20 h-full bg-[#D9D9D9] text-black p-10 w-64 transition-transform duration-300 ease-in-out ${
+          className={`fixed lg:relative z-20 h-full bg-[#D9D9D9] text-black p-10 w-64 transition-transform duration-300 ease-in-out ${
             menuOpen ? "translate-x-0" : "-translate-x-full"
-          } md:translate-x-0`}
+          } lg:translate-x-0`}
         />
       )}
       {shouldShowMenu && !menuOpen && (
         <button
-          className="absolute top-4 left-4 z-30 md:hidden text-white"
+          className="absolute top-4 left-4 z-30 lg:hidden text-white"
           onClick={() => setMenuOpen(true)}
         >
           <Menu size={28} />

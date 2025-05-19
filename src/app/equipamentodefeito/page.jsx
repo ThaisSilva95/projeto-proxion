@@ -68,11 +68,11 @@ function PageEquipamentos() {
 
   return (
     <>
-      <div className="relative w-full h-screen flex flex-col items-center p-4 lg:py-8 gap-3">
-        <h2 className="text-2xl font-bold mb-3 mt-16 text-[#ffffff]">
+      <div className="relative w-full h-screen flex flex-col p-4 lg:py-8 gap-3">
+        <h2 className="text-2xl font-bold mb-10 mt-6 text-[#ffffff]">
           Equipamentos e Defeitos
         </h2>
-        <div className="relative w-[95%] h-[2px] flex flex-col items-center bg-[#ffffff]" />
+       
         <div className="flex-wrap flex flex-row items-center justify-center lg:justify-start gap-3 px-4 w-[90%]">
           <button
             className="flex flex-row items-center gap-2 bg-[#00ABAD] text-white font-bold px-4 rounded-md h-[36px]"
@@ -103,52 +103,47 @@ function PageEquipamentos() {
           <input
             type="text"
             placeholder="Filtrar"
-            className=" flex flex-row items-center bg-[#00aaad21] border-2 border-[#fff4f442] text-white font-bold px-4 rounded-md h-[36px] w-[108px]"
+            className=" flex flex-row items-center bg-white border-2 border-[#fff4f442] text-teal-700 font-bold px-4 rounded-md h-[36px] w-[108px]"
             value={filtro}
             onChange={(e) => setFiltro(e.target.value)}
           />
         </div>
-        <div className="relative w-[95%] h-[2px] flex flex-col items-center bg-[#ffffff]" />
+       
         <div className="flex flex-col items-center mt-3 py-8 ">
-          <table className="text-white w-[95%] flex flex-col justify-center">
-            <thead className="flex flex-col w-full justify-center">
-              <tr className="flex flex-row items-center justify-start mb-2">
-                <th className="w-1/2 text-left">
-                  <span>Tipo de Equipamento</span>
-                </th>
-                <th className="w-1/2 text-left">Defeitos</th>
+          <table className="table-fixed w-full text-white border border-white/10 border-collapse mb-20">
+            <thead className="bg-teal-700">
+              <tr className="">
+                <th className="w-[1%] px-2 py-2 border border-white/10"></th>
+                <th className="w-[10%] text-left px-2 py-2 border border-white/10">Tipo de Equipamento</th>
+                <th className="w-[20%] text-left px-2 py-2 border border-white/10">Defeitos</th>
               </tr>
-              <tr className="relative w-full h-[1px] flex flex-col items-center bg-[#ffffff62] mb-6" />
+              
             </thead>
-            <tbody className="flex flex-col gap-y-4 h-[300px] overflow-y-auto">
+            <tbody className="divide-y divide-white/20 pb-8">
               {listaExibida.map((equipamento, index) => (
                 <tr
                   key={index}
-                  className={`flex flex-row items-center justify-start ${
-                    selectedRow === index ? "bg-[#00aaad21]" : ""
-                  }`}
+                  className={`hover:bg-[#00aaad21] cursor-pointer ${selectedRow === index ? "bg-[#00aaad21]" : ""}`}
                   onClick={() => setSelectedRow(index)}
                 >
-                  <td className="w-1/2 text-left flex items-center">
+                  <td className="px-4 py-2">
                     <input
                       type="radio"
                       name="selected"
                       checked={selectedRow === index}
                       onChange={() => setSelectedRow(index)}
                     />
-                    <span className="ml-2">{equipamento.tipo}</span>
-                  </td>
-                  <td className="w-1/2 text-left">{equipamento.defeitos}</td>
+                     </td>
+                    <td className="px-2 py-2 border border-white/10">{equipamento.tipo}</td>
+                  
+                  <td className="px-2 py-2 border border-white/10">{equipamento.defeitos}</td>
+                 
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <Image
-          src={Logo}
-          alt="Error"
-          className="fixed bottom-2 max-w-[100px] mx-auto mt-8 mb-8 lg:hidden"
-        />
+       
       </div>
       {modalOpen && (
         <ModalEquipment

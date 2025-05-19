@@ -7,6 +7,7 @@ import logo from "../IMG/LOGOBG.png";
 import Link from "next/link";
 import Button from "../../Componentes/Button/Button";
 
+
 export default function HomeInspection() {
   const [data, setData] = useState("");
   const [hora, setHora] = useState("");
@@ -19,8 +20,8 @@ export default function HomeInspection() {
   }, []);
 
   return (
-    <div className="relative z-10 flex flex-col flex-1 items-center justify-between h-full p-4 text-white max-w-full overflow-y-auto mt-5">
-      <div className="flex items-center gap-5 mt-20 md:mt-5">
+    <div className="relative z-10 flex flex-col flex-1 justify-center items-center p-4 text-white max-w-full overflow-y-auto">
+      <div className="flex items-center gap-5 mb-10">
         <Image
           src={avatar}
           alt="Avatar"
@@ -34,7 +35,7 @@ export default function HomeInspection() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-10 items-center mt-0 w-full max-w-xl">
+      <div className="flex flex-col gap-10 items-center max-w-xl ">
         <div className="text-center w-full">
           <p className="text-white text-[22px] font-semibold">Data</p>
           <input
@@ -62,9 +63,7 @@ export default function HomeInspection() {
         </Link>
       </div>
 
-      <div className="mb-12 md:mb-5">
-        <Image src={logo} alt="logo" width={180} height={100} />
-      </div>
+     
     </div>
   );
 }

@@ -6,6 +6,7 @@ import Logo from "../IMG/LOGOBG.png";
 import Button from "../../Componentes/Button/Button";
 import InputSelect from "../../Componentes/InputSelect/InputSelect";
 import InputText from "../../Componentes/InputText/InputText";
+import Link from 'next/link'
 
 function SelectEquipment() {
   const [tiposEquipamento, setTiposEquipamento] = useState([]);
@@ -19,6 +20,20 @@ function SelectEquipment() {
   const [serieSelecionada, setSerieSelecionada] = useState("");
   const [serieManual, setSerieManual] = useState("");
 
+  // Carregar informações da empresa selecionada
+useEffect(() => {
+  try {
+    const empresaSelecionada = localStorage.getItem("empresaSelecionada");
+    if (empresaSelecionada) {
+      const { cliente, unidade, subLocal } = JSON.parse(empresaSelecionada);
+      console.log("Dados da empresa carregados:", { cliente, unidade, subLocal });
+      // Você pode adicionar um state para armazenar esses dados se precisar exibir na tela
+    }
+  } catch (error) {
+    console.error("Erro ao carregar dados da empresa:", error);
+  }
+}, []);
+  
   // Buscar tipos de equipamentos ao carregar a página
   useEffect(() => {
     const fetchTiposEquipamento = async () => {
@@ -183,6 +198,13 @@ function SelectEquipment() {
       return;
     }
 
+    // Salvar seleções no localStorage
+    localStorage.setItem("equipamentoSelecionado", JSON.stringify({
+      tipo: tipoSelecionado,
+      modelo: modeloSelecionado,
+      numeroSerie,
+    }));
+
     // Aqui você pode navegar para a próxima página ou enviar os dados para o servidor
     console.log("Dados selecionados:", {
       tipo: tipoSelecionado,
@@ -195,8 +217,8 @@ function SelectEquipment() {
   };
 
   return (
-    <div className="relative w-screen h-screen flex  flex-col items-center p-4 lg:py-8 gap-3">
-      <h2 className="text-2xl font-bold mb-3 mt-16 text-[#ffffff]">
+    <div className="relative w-screen h-screen flex justify-center flex-col items-center p-4 lg:py-8 gap-3">
+      <h2 className="text-2xl font-bold mb-3 text-[#ffffff]">
         Selecionar Equipamento
       </h2>
 
@@ -236,7 +258,11 @@ function SelectEquipment() {
           textStyle="text-center text-xl font-medium text-[#01AAAD]"
           inputMargin="18px 0 0 0"
           value={serieManual}
-          onChange={handleSerieManualChange}
+          onChange={(e) => setSerieManual(e.target.value)}
+          onEnter={(value) => {
+            setSerieSelecionada(value); 
+            setSerieManual(""); 
+          }}
           disabled={loading}
         />
 
@@ -245,10 +271,11 @@ function SelectEquipment() {
             {error}
           </div>
         )}
-
+      <Link href="/listaequipamentos">
         <Button
           textButton="Selecionar"
-          type="submit"
+          type="button"
+          onClick={handleSubmit}
           disabled={
             !tipoSelecionado ||
             !modeloSelecionado ||
@@ -256,15 +283,11 @@ function SelectEquipment() {
             loading
           }
         />
+        </Link>
       </form>
 
       {loading && <div className="mt-4 text-white">Carregando...</div>}
 
-      <Image
-        src={Logo}
-        alt="Error"
-        className="fixed bottom-2 max-w-[100px] mx-auto mt-8 mb-8 lg:hidden"
-      />
     </div>
   );
 }

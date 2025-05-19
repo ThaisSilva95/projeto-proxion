@@ -18,13 +18,13 @@ export async function GET(request) {
     const client = new MongoClient(uri);
     
     await client.connect();
-    const database = client.db('ProxionDevDNC');
-    const collection = database.collection('Proxion2');
+    const database = client.db('ProxionDnc');
+    const collection = database.collection('Proxion');
     
     // Buscar sub-locais do cliente e unidade específicos
-    const subLocais = await collection.distinct('Sub-local', { 
-      Cliente: cliente,
-      Unidade: unidade 
+    const subLocais = await collection.distinct("Cod.Sublocal", { 
+      "Cod.Cliente": cliente,
+      "Cod.Unidade": unidade 
     });
     
     await client.close();

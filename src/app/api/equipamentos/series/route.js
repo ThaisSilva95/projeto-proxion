@@ -30,8 +30,8 @@ export async function GET(request) {
     
     console.log("API series - conectando ao MongoDB...");
     await client.connect();
-    const database = client.db('ProxionDevDNC');
-    const collection = database.collection('Proxion1');
+    const database = client.db('ProxionDnc');
+    const collection = database.collection('Proxion');
     
     console.log(`API series - buscando números de série para categoria "${tipo}" e modelo "${modelo}"`);
     
