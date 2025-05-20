@@ -47,7 +47,7 @@ export default function Relatorio() {
         });
     }, []);
 
-
+    //Dados para o Gráfico de pizza
     const dadosPorTipo = [
         {
             tipo: 'Danificado',
@@ -67,6 +67,7 @@ export default function Relatorio() {
         { tipo: 'Indisponível', valor: 47 },
     ];
 
+    //Dados para o garfico de barras
     const dadosPorEquipamento = [
         {
             equipamento: 'Coletor de Dados',
@@ -148,7 +149,7 @@ export default function Relatorio() {
 
     ];
 
-    // Dados de exemplo (simulando dados que viriam de uma API)
+    // dados da tabela de lista de equipamento
     const [equipamentos, setEquipamentos] = useState([
         { tipo: 'Coletor de Dados', modelo: 'MC9190', serial: '1407500506201', status: 'Danificado', observacoes: 'Tela', intensidade: 'Leve' },
         { tipo: 'Coletor de Dados', modelo: 'MC9190', serial: '1414100502497', status: 'Danificado', observacoes: 'Carcaça', intensidade: 'Médio' },
@@ -243,13 +244,17 @@ export default function Relatorio() {
     ]
     );
 
+    //definir altura máximo do gráfico de barras
     const maxGraficoAltura = 150;
     const maiorValor = Math.max(...dadosPorTipo.map(item => item.valor));
 
+    //função para buscar os dados dos itens identificados como danificado
     const danificado = dadosPorTipo.find(item => item.tipo === 'Danificado');
     const leve = danificado?.subcategorias.find(sub => sub.nivel === 'Leve')?.valor || 0;
     const medio = danificado?.subcategorias.find(sub => sub.nivel === 'Médio')?.valor || 0;
     const grave = danificado?.subcategorias.find(sub => sub.nivel === 'Grave')?.valor || 0;
+
+    //configuração do gráfico
     const options1 = {
         rotation: 20 * Math.PI,
         plugins: {
@@ -274,6 +279,7 @@ export default function Relatorio() {
         },
     };
 
+    //configuração do gráfico de pizza
     const dataPrincipal = {
         labels: dadosPorTipo.map(item => item.tipo),
         datasets: [
@@ -292,6 +298,7 @@ export default function Relatorio() {
         ],
     };
 
+    //cores da intensidade da lista equipamento
     const dataDanificados = {
         labels: ['Leve', 'Médio', 'Grave'],
         datasets: [
@@ -303,6 +310,7 @@ export default function Relatorio() {
         ],
     };
 
+    //Tabela 1 dos parametros de avaliação
     const parametros1 = [
         { tipoequipamento: "Access Point", parametro: "Antena" },
         { tipoequipamento: "Access Point", parametro: "Carcaça" },
@@ -383,12 +391,16 @@ export default function Relatorio() {
         { tipoequipamento: "Leitor Barcode", parametro: "Gatilho" },
         { tipoequipamento: "Leitor Barcode", parametro: "Não liga" },
         { tipoequipamento: "Leitor Barcode", parametro: "Software / Firmware" },
-        { tipoequipamento: "Leitor Barcode", parametro: "Trava da Bateria" },
-        { tipoequipamento: "Leitor Barcode", parametro: "Vidro do Engine" },
-        { tipoequipamento: "Leitor Fixo Barcode", parametro: "Carcaça" }
+
+
+
     ];
 
+    //Tabela 2 dos parametros de avaliação
     const parametros2 = [
+        { tipoequipamento: "Leitor Barcode", parametro: "Trava da Bateria" },
+        { tipoequipamento: "Leitor Barcode", parametro: "Vidro do Engine" },
+        { tipoequipamento: "Leitor Fixo Barcode", parametro: "Carcaça" },
         { tipoequipamento: "Leitor Fixo Barcode", parametro: "Comunicação" },
         { tipoequipamento: "Leitor Fixo Barcode", parametro: "Configuração" },
         { tipoequipamento: "Leitor Fixo Barcode", parametro: "Engine" },
@@ -418,10 +430,10 @@ export default function Relatorio() {
     // Configurações de paginação para PDF
     const LINHAS_POR_PAGINA = 41; // Número máximo de linhas por página para caber no PDF
 
-    // Calcula o total de páginas com base no número de equipamentos
+    // Calcula o total de páginas com base no número de equipamentos da lista de equipamentos
     const totalPaginas = Math.ceil(equipamentos.length / LINHAS_POR_PAGINA);
 
-    // Função para renderizar o status com a cor correta
+    // Função para renderizar o status com a cor correta na lista de equipamento
     const renderizarStatus = (status) => {
         switch (status) {
             case 'Danificado':
@@ -451,6 +463,7 @@ export default function Relatorio() {
         }
     };
 
+
     const coresStatus = {
         'Danificado': '#FFCC00',
         'Em Produção': '#2CB1B7',
@@ -462,6 +475,8 @@ export default function Relatorio() {
     const statusList = Object.keys(coresStatus);
     const labels = (dadosPorEquipamento ?? []).map(item => item.equipamento);
 
+
+    //função para ler a lista de equipamentos
     const datasets = statusList.map(status => ({
         label: status,
         data: dadosPorEquipamento.map(equip => {
@@ -499,6 +514,8 @@ export default function Relatorio() {
         datasets
     }), [dadosPorEquipamento]);
 
+
+    //função de configuraçaõ do gráfico de barras
     const options = {
         responsive: true,
         plugins: {
@@ -777,8 +794,8 @@ export default function Relatorio() {
                         return (
                             <div
                                 key={`page-${pageIndex}`}
-                                className={pageIndex > 0 ? "page-break-before mt-8" : ""}
-                                style={pageIndex > 0 ? { pageBreakBefore: 'always' } : {}}
+                                className={pageIndex > 0 ? "page-break-before" : ""}
+                                style={{ pageBreakBefore: pageIndex > 0 ? 'always' : 'auto' }}
                             >
                                 {/* Cabeçalho - Repetido em todas as páginas */}
                                 <div className="flex justify-between items-start mb-2">
@@ -843,23 +860,13 @@ export default function Relatorio() {
                                                     </td>
                                                 </tr>
                                             ))}
-                                            {/* Adicionar linhas vazias se não houver equipamentos suficientes para preencher a página */}
-                                            {Array(Math.max(0, LINHAS_POR_PAGINA - equipamentosDaPagina.length)).fill().map((_, index) => (
-                                                <tr key={`empty-${pageIndex}-${index}`} className={(equipamentosDaPagina.length + index) % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                                                    <td className="py-0.5 px-2 border-b border-gray-200">&nbsp;</td>
-                                                    <td className="py-0.5 px-2 border-b border-gray-200"></td>
-                                                    <td className="py-0.5 px-2 border-b border-gray-200"></td>
-                                                    <td className="py-0.5 px-2 border-b border-gray-200"></td>
-                                                    <td className="py-0.5 px-2 border-b border-gray-200"></td>
-                                                    <td className="py-0.5 px-2 border-b border-gray-200"></td>
-                                                </tr>
-                                            ))}
+
                                         </tbody>
                                     </table>
                                 </div>
 
                                 {/* Rodapé - Repetido em todas as páginas */}
-                                <div className="w-full mt-2 pt-1 border-t border-gray-300" style={{ pageBreakInside: 'avoid' }}>
+                                <div className="w-full mt-4 pt-1 border-t border-gray-300" style={{ pageBreakInside: 'avoid' }} >
                                     <div className="flex items-center text-xs text-gray-600 gap-2">
                                         <img
                                             src='/img/logoproxion.png'
@@ -892,13 +899,13 @@ export default function Relatorio() {
             `}</style>
                 </div>
 
-
                 {/* PÁGINA DE PARÂMETROS 1 */}
-                <div className="w-full h-full flex flex-col justify-between page">
-                    <div className="flex justify-between items-start mb-2">
+                <div className="w-full h-full flex flex-col justify-between page no-break">
+
+                    <div className="flex justify-between items-start">
                         <div>
-                            <h1 className="font-bold text-lg text-gray-600">Manutenção Preventiva</h1>
-                            <p className="text-sm text-gray-600">Relatório dos Serviços Executados</p>
+                            <h1 className="font-bold text-lg text-gray-600" >Manutenção Preventiva</h1>
+                            <p className="text-sm text-gray-600 ">Relatório dos Serviços Executados</p>
                         </div>
                         <img
                             src='/img/logokenvue.png'
@@ -908,14 +915,14 @@ export default function Relatorio() {
                         />
                     </div>
 
-                    <div className="w-full h-6 bg-gray-700 flex items-center justify-center mb-2">
+                    <div className="w-full h-6 bg-gray-700 flex items-center justify-center ">
                         <p className="text-white text-sm relative -top-2">
                             Parâmetros Avaliados por Tipo de Equipamento
                         </p>
                     </div>
 
                     {/* Tabela de Equipamentos */}
-                    <div className="overflow-hidden border-t border-gray-300 w-full" style={{ pageBreakInside: 'avoid' }}>
+                    <div className="overflow-hidden border-t border-gray-300 w-full" >
                         <table className="min-w-full bg-white">
                             <thead>
                                 <tr className="bg-gray-100 text-gray-600 text-xs relative -top-3 h-8">
@@ -942,7 +949,7 @@ export default function Relatorio() {
                         </table>
                     </div>
 
-                    <div className="w-full mt-2 pt-1 border-t border-gray-300" style={{ pageBreakInside: 'avoid' }}>
+                    <div className="w-full mt-2 pt-1 border-t border-gray-300 " style={{ pageBreakInside: 'avoid' }}>
                         <div className="flex items-center text-xs text-gray-600 gap-2">
                             <img
                                 src='/img/logoproxion.png'
@@ -958,9 +965,8 @@ export default function Relatorio() {
                     </div>
                 </div>
 
-
                 {/* PÁGINA DE PARÂMETROS 2 */}
-                <div className="w-full h-full flex flex-col justify-between page">
+                <div className="w-full h-full flex flex-col justify-between page no-break">
                     <div className="flex justify-between items-start mb-2">
                         <div>
                             <h1 className="font-bold text-lg text-gray-600">Manutenção Preventiva</h1>
@@ -976,12 +982,12 @@ export default function Relatorio() {
 
                     <div className="w-full h-6 bg-gray-700 flex items-center justify-center mb-2">
                         <p className="text-white text-sm relative -top-2">
-                           Parâmetros Avaliados por Tipo de Equipamento
+                            Parâmetros Avaliados por Tipo de Equipamento
                         </p>
                     </div>
 
                     {/* Tabela de Equipamentos */}
-                    <div className="overflow-hidden border-t border-gray-300 w-full" style={{ pageBreakInside: 'avoid' }}>
+                    <div className="overflow-hidden border-t border-gray-300 w-full" >
                         <table className="min-w-full bg-white">
                             <thead>
                                 <tr className="bg-gray-100 text-gray-600 text-xs relative -top-3 h-8">
@@ -994,10 +1000,14 @@ export default function Relatorio() {
                             <tbody>
                                 {tableRows2.map((row, index) => (
                                     <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-                                        <td className="py-1 px-2 border-b text-xs text-center">{row.col1Tipo}</td>
-                                        <td className="py-1 px-2 border-b text-xs text-center">{row.col1Parametro}</td>
-                                        <td className="py-1 px-2 border-b text-xs text-center">{row.col2Tipo}</td>
-                                        <td className="py-1 px-2 border-b text-xs text-center">{row.col2Parametro}</td>
+                                        <td className={`py-1 px-2 border-b text-xs text-center ${row.col1Tipo === "" ? "py-2" : ""}`}>
+                                            <span className="relative -top-[4px]">{row.col1Tipo} </span></td>
+                                        <td className={`py-1 px-2 border-b text-xs text-center ${row.col1Tipo === "" ? "py-2" : ""}`}>
+                                            <span className="relative -top-[4px]">{row.col1Parametro} </span></td>
+                                        <td className={`py-1 px-2 border-b text-xs text-center ${row.col1Tipo === "" ? "py-2" : ""}`}>
+                                            <span className="relative -top-[4px]">{row.col2Tipo} </span></td>
+                                        <td className={`py-1 px-2 border-b text-xs text-center ${row.col1Tipo === "" ? "py-2" : ""}`}>
+                                            <span className="relative -top-[4px]">{row.col2Parametro} </span></td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -1021,8 +1031,198 @@ export default function Relatorio() {
                 </div>
 
                 {/* PÁGINA FINAL */}
-                <div className="w-full h-full flex flex-col justify-between page" >
+                <div className="w-full h-full flex flex-col justify-between page no-break" >
+                    <div className="flex justify-between items-start mb-2">
+                        <div>
+                            <h1 className="font-bold text-lg text-gray-600" >Manutenção Preventiva</h1>
+                            <p className="text-sm text-gray-600 ">Relatório dos Serviços Executados</p>
+                        </div>
+                        <img
+                            src='/img/logokenvue.png'
+                            alt="Topo"
+                            loading="eager"
+                            style={{ width: '25%', height: 'auto', display: 'block' }}
+                        />
+                    </div>
 
+                    <div className="w-full h-6 bg-gray-700 flex items-center justify-center">
+                        <p className="text-white text-sm relative -top-2">
+                            Próximos passos
+                        </p>
+                    </div>
+
+                    <p className='text-xs font-semibold mb-2'>
+
+                        Possui equipamentos danificados e deseja repará-los? Acesse nosso portal de suporte através do código QR, ou clicando no link abaixo, e abra um
+                        ticket com o nosso time!<br />
+                        (Caso você não saiba como abrir um ticket, existe um tutorial em nossa base de conhecimento, artigo que você também pode acessar através do QR
+                        CODE “Tutorial”.)<br />
+                        <br />
+                        Feito isso, nós verificaremos seu cadastro e, caso você tenha contratado o serviço de "Leva e Traz", coletaremos o equipamento em sua unidade
+                        para realizar a manutenção em laboratório.
+                        Obs.: É importante que a NF de Remessa para Conserto seja emitida e enviada na abertura do ticket.
+                    </p>
+
+                    <div className="flex justify-center gap-10 flex-wrap p-6 bg-white">
+                        {/* Card 1 */}
+                        <div className="text-center shadow-md rounded-lg p-4 bg-gray-50 w-44">
+                            <h3 className="text-teal-700 font-bold text-base mb-2">Portal de Suporte</h3>
+                            <img src="/img/QRCodeSuporte.png" alt="QR Code Suporte" className="mx-auto mb-2 w-32 h-32 object-contain" />
+                            <a
+                                href="https://www.proxion.com.br/suporte"
+                                className="text-teal-600 hover:underline text-xs"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                www.proxion.com.br/suporte
+                            </a>
+                        </div>
+
+                        {/* Card 2 */}
+                        <div className="text-center shadow-md rounded-lg p-4 bg-gray-50 w-40">
+                            <h3 className="text-teal-700 font-bold text-base mb-2">Tutorial</h3>
+                            <img src="/img/QRCodeTutorial.png" alt="QR Code Tutorial" className="mx-auto mb-2 w-32 h-32 object-contain" />
+                            <a
+                                href="https://www.proxion.com.br/kb"
+                                className="text-teal-600 hover:underline text-xs"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                www.proxion.com.br/kb
+                            </a>
+                        </div>
+
+                        {/* Card 3 */}
+                        <div className="text-center shadow-md rounded-lg p-4 bg-gray-50 w-40">
+                            <h3 className="text-teal-700 font-bold text-lg mb-2">Site</h3>
+                            <img src="/img/QRCodeSite.png" alt="QR Code Site" className="mx-auto mb-2 w-32 h-32 object-contain" />
+                            <a
+                                href="https://www.proxion.com.br"
+                                className="text-teal-600 hover:underline text-xs"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                www.proxion.com.br
+                            </a>
+                        </div>
+                    </div>
+
+                    <div className="w-full h-6 bg-gray-700 flex items-center justify-center">
+                        <p className="text-white text-sm relative -top-2">
+                            Horário de Atendimento
+                        </p>
+                    </div>
+
+                    <div class="max-w-md mx-auto  bg-white rounded shadow mt-6">
+
+                        <table class="table-auto w-full border-collapse text-left text-sm">
+
+                            <thead>
+                                <tr class="bg-gray-200 text-teal-800 font-semibold text-center -top-4">
+                                    <th class="px-3 py-2">
+                                        <span className="relative -top-[4px]">Atividade</span>
+                                    </th>
+                                    <th class="px-3 py-2">
+                                        <span className="relative -top-[4px]">  Data </span>
+                                    </th>
+                                    <th class="px-3 py-2">
+                                        <span className="relative -top-[4px]"> Hora</span>                                        </th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="text-gray-800">
+                                <tr class="border-t">
+                                    <td class="bg-gray-200 text-teal-800 font-semibold px-3 -top-4">
+                                        <span className="relative -top-[4px]">Chegada ao Cliente</span>
+                                    </td>
+                                    <td class="px-3 py-2 -top-4">
+                                        <span className="relative -top-[4px]">20/05/2024</span>
+                                    </td>
+                                    <td class="px-3 py-2 -top-4">
+                                        <span className="relative -top-[4px]">09:30</span>
+                                    </td>
+                                </tr>
+                                <tr class="border-t">
+                                    <td class="bg-gray-200 text-teal-800 font-semibold px-3 -top-4">
+                                        <span className="relative -top-[4px]">Saída do Cliente
+                                        </span></td>
+                                    <td class="px-3 py-2 -top-4">
+                                        <span className="relative -top-[4px]">20/05/2024
+                                        </span>
+                                    </td>
+                                    <td class="px-3 py-2 -top-4">
+                                        <span className="relative -top-[4px]">13:00
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+
+
+                    <div className="w-full h-6 bg-gray-700 flex items-center justify-center mt-6">
+                        <p className="text-white text-sm relative -top-2">
+                            Analista Responsável
+                        </p>
+                    </div>
+
+                    <div className="flex flex-col items-center p-4">
+                        <img
+                            src="/img/AssinaturaFelipe.png"
+                            alt="Assinatura"
+                            className="h-20 object-contain "
+                        />
+
+                        <div className="border-t-2 border-black w-60 "></div>
+
+                        <p className="text-sm text-black font-medium">Felipe Feveret</p>
+                    </div>
+
+
+                    <div className="w-full h-6 bg-gray-700 flex items-center justify-center">
+                        <p className="text-white text-sm relative -top-2">
+                            Aprovação
+                        </p>
+                    </div>
+
+                    <p className='text-xs mb-2  font-semibold text-center'>
+                        “Declaro estar ciente e concordar com as condições apresentadas neste relatório”.
+                    </p>
+
+                    <div className=' flex justify-between gap-10 flex-wrap p-6 bg-white'>
+                        <div> <p className='text-xs font-semibold mb-2 '>
+                            Nome Completo:<br />
+                            RG:<br />
+                            Cargo:<br />
+                            Data:<br />
+                        </p></div>
+
+                        <div className='mt-8'>
+
+                            <div className="border-t-2 border-black w-60 "></div>
+
+                            <p className="text-sm text-black font-medium text-center">Assinatura</p>
+                        </div>
+
+                    </div>
+
+
+
+                    <div className="w-full mt-4 pt-2 border-t border-gray-300" style={{ pageBreakInside: 'avoid' }}>
+                        <div className="flex items-center text-xs text-gray-600 gap-3">
+                            <img
+                                src='/img/logoproxion.png'
+                                alt="Logo Proxion"
+                                loading="eager"
+                                style={{ width: '10%', height: 'auto', display: 'block' }}
+                            />
+                            <p>
+                                Proxion Solutions: Avenida Shishima Hifumi, 2911, Conj. 205, Parque Tecnológico UNIVAP Urbanova - São José dos Campos/SP -
+                                CEP 12244-000 | +55 12 3202-9292 | <a href="https://www.proxion.com.br" className="text-blue-600 underline">www.proxion.com.br</a>
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
             </div>
