@@ -1,272 +1,387 @@
-import clientPromise from '../../../../../lib/mongodb';
+"use client";
 
-export async function GET(request) {
-  try {
-    // Captura a URL completa para análise
-    const url = new URL(request.url);
-    const searchParams = url.searchParams;
-    
-    console.log("📩 URL completa:", request.url);
-    console.log("🔍 URL path:", url.pathname);
-    console.log("🔍 URL search:", url.search);
-    
-    // Extração robusta de parâmetros com múltiplas variações
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import Logo from "../IMG/LOGOBG.png";
+import Button from "../../Componentes/Button/Button";
+import InputSelect from "../../Componentes/InputSelect/InputSelect";
+import InputText from "../../Componentes/InputText/InputText";
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+
+function SelectEquipment() {
+  const searchParams = useSearchParams();
+  const [tiposEquipamento, setTiposEquipamento] = useState([]);
+  const [modelosEquipamento, setModelosEquipamento] = useState([]);
+  const [numerosDeSerie, setNumerosDeSerie] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const [tipoSelecionado, setTipoSelecionado] = useState("");
+  const [modeloSelecionado, setModeloSelecionado] = useState("");
+  const [serieSelecionada, setSerieSelecionada] = useState("");
+  const [serieManual, setSerieManual] = useState("");
+  const [empresaInfo, setEmpresaInfo] = useState({
+    cliente: '',
+    unidade: '',
+    subLocal: ''
+  });
+
+  // Obter parâmetros da URL
+  useEffect(() => {
     const cliente = searchParams.get('cliente');
     const unidade = searchParams.get('unidade');
-    
-    // Busca todas as variações possíveis de sublocal dos parâmetros
-    let subLocal = searchParams.get('sublocal') || 
-                   searchParams.get('subLocal') || 
-                   searchParams.get('sub-local') || 
-                   searchParams.get('sublLocal');
-    
-    // Tentativa de extrair do caminho da URL se não estiver nos parâmetros
-    if (!subLocal) {
-      // Extrai do formato /lista?cliente=PLN&unidade=SJC&sublocal=HPL
-      const pathMatch = url.pathname.match(/\/lista[?\/]cliente=([^&\/]+)[&\/]unidade=([^&\/]+)[&\/](?:sublocal|subLocal|sublLocal)=([^&\/]+)/i);
-      if (pathMatch) {
-        subLocal = pathMatch[3];
-        console.log("🔍 Sublocal extraído do path (formato 1):", subLocal);
-      } else {
-        // Extrai do formato /cliente-PLN/unidade-SJC/sublocal-HPL
-        const altPathMatch = url.pathname.match(/\/sub[-_]?local[?=\/]([^&\/]+)/i);
-        if (altPathMatch) {
-          subLocal = altPathMatch[1];
-          console.log("🔍 Sublocal extraído do path (formato 2):", subLocal);
-        } else {
-          // Última tentativa - extrai do final do path se seguir um padrão como /PLN/SJC/HPL
-          const segments = url.pathname.split('/').filter(Boolean);
-          if (segments.length >= 3 && cliente && unidade) {
-            // Se temos cliente e unidade e há um terceiro segmento, podemos tentar usá-lo como sublocal
-            const possibleSublocal = segments[segments.length - 1];
-            if (possibleSublocal !== cliente && possibleSublocal !== unidade) {
-              subLocal = possibleSublocal;
-              console.log("🔍 Sublocal extraído do final do path:", subLocal);
-            }
-          }
+    const subLocal = searchParams.get('subLocal');
+
+    if (cliente && unidade) {
+      setEmpresaInfo({
+        cliente,
+        unidade,
+        subLocal: subLocal || ''
+      });
+      console.log("Dados da empresa carregados da URL:", { cliente, unidade, subLocal });
+    } else {
+      // Tentar carregar do localStorage como fallback
+      try {
+        const empresaSelecionada = localStorage.getItem("empresaSelecionada");
+        if (empresaSelecionada) {
+          const dados = JSON.parse(empresaSelecionada);
+          setEmpresaInfo({
+            cliente: dados.cliente || '',
+            unidade: dados.unidade || '',
+            subLocal: dados.subLocal || ''
+          });
+          console.log("Dados da empresa carregados do localStorage:", dados);
         }
+      } catch (error) {
+        console.error("Erro ao carregar dados da empresa:", error);
+        setError("Erro ao carregar dados da empresa. Por favor retorne e selecione novamente.");
       }
     }
-    
-    // Extrai HPL da URL se ela contiver "HPL" em qualquer lugar
-    if (!subLocal && url.toString().includes("HPL")) {
-      subLocal = "HPL";
-      console.log("🔍 Sublocal 'HPL' extraído da URL por conter essa string");
-    }
+  }, [searchParams]);
+  
+  // Buscar tipos de equipamentos ao carregar a página
+  useEffect(() => {
+    const fetchTiposEquipamento = async () => {
+      if (!empresaInfo.cliente || !empresaInfo.unidade) {
+        return; // Não buscar se não tiver informações da empresa
+      }
 
-    console.log("📩 Parâmetros processados:", { 
-      cliente, 
-      unidade, 
-      subLocal,
-      todosParametros: Object.fromEntries(searchParams.entries())
-    });
+      setLoading(true);
+      setError(null);
 
-    if (!cliente || !unidade) {
-      return Response.json({ 
-        error: 'Parâmetros obrigatórios faltando (cliente ou unidade)',
-        parametrosRecebidos: { cliente, unidade, subLocal }
-      }, { status: 400 });
-    }
+      try {
+        // Adicionar parâmetros da empresa à requisição
+        const url = `/api/equipamentos/tipos?cliente=${encodeURIComponent(empresaInfo.cliente)}&unidade=${encodeURIComponent(empresaInfo.unidade)}${empresaInfo.subLocal ? `&subLocal=${encodeURIComponent(empresaInfo.subLocal)}` : ''}`;
+        console.log("Buscando tipos URL:", url);
 
-    // Conectar ao MongoDB
-    console.log("🔄 Conectando ao MongoDB...");
-    const client = await clientPromise;
-    const db = client.db("ProxionDnc");
+        const response = await fetch(url);
 
-    // Construir o filtro base
-    let filtro = {
-      "Cod.Cliente": cliente,
-      "Cod.Unidade": unidade
+        if (!response.ok) {
+          throw new Error(`Erro ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        
+        if (Array.isArray(data) && data.length > 0) {
+          setTiposEquipamento(data);
+        } else if (data.error) {
+          throw new Error(data.error);
+        } else {
+          // Usando dados estáticos como fallback em caso de lista vazia
+          console.log("Nenhum tipo encontrado, usando fallback");
+          setTiposEquipamento(["Tipo 1", "Tipo 2", "Tipo 3", "Tipo 4", "Tipo 5"]);
+        }
+      } catch (err) {
+        console.error("Erro ao buscar tipos de equipamento:", err);
+        setError(err.message);
+        // Usando dados estáticos como fallback
+        setTiposEquipamento(["Tipo 1", "Tipo 2", "Tipo 3", "Tipo 4", "Tipo 5"]);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    // Adicionar sublocal ao filtro se existir
-    if (subLocal) {
-      filtro["Cod.Sublocal"] = subLocal;
-      console.log("🔍 Sublocal adicionado ao filtro:", subLocal);
-    } else {
-      console.log("⚠️ Nenhum sublocal encontrado na requisição");
+    fetchTiposEquipamento();
+  }, [empresaInfo]);
+
+  // Buscar modelo quando um tipo é selecionado
+  useEffect(() => {
+    if (!tipoSelecionado || !empresaInfo.cliente || !empresaInfo.unidade) {
+      setModelosEquipamento([]);
+      return;
     }
 
-    console.log("🔍 Filtro aplicado:", JSON.stringify(filtro));
+    const fetchModelos = async () => {
+      setLoading(true);
+      setError(null);
 
-    // Verificar se existem documentos com este filtro
-    const totalEncontrado = await db.collection("Proxion").countDocuments(filtro);
-    console.log(`📊 Total de documentos encontrados: ${totalEncontrado}`);
+      try {
+        const url = `/api/equipamentos/modelos?cliente=${encodeURIComponent(empresaInfo.cliente)}&unidade=${encodeURIComponent(empresaInfo.unidade)}${empresaInfo.subLocal ? `&subLocal=${encodeURIComponent(empresaInfo.subLocal)}` : ''}&tipo=${encodeURIComponent(tipoSelecionado)}`;
+        console.log("Buscando modelos URL:", url);
 
-    // Se não encontrar nenhum documento com o filtro exato, tentar busca insensível a maiúsculas/minúsculas
-    if (totalEncontrado === 0) {
-      console.log("⚠️ Nenhum documento encontrado com filtro exato. Tentando busca insensível a maiúsculas/minúsculas...");
-      
-      // Criar filtro case-insensitive
-      filtro = {
-        "Cod.Cliente": { $regex: new RegExp(`^${escapeRegExp(cliente)}$`, "i") },
-        "Cod.Unidade": { $regex: new RegExp(`^${escapeRegExp(unidade)}$`, "i") }
-      };
-      
-      if (subLocal) {
-        filtro["Cod.Sublocal"] = { $regex: new RegExp(`^${escapeRegExp(subLocal)}$`, "i") };
-      }
-      
-      const totalInsensivel = await db.collection("Proxion").countDocuments(filtro);
-      console.log(`📊 Total encontrado com busca insensível: ${totalInsensivel}`);
-      
-      // Se ainda não encontrar, tentar busca sem o sublocal
-      if (totalInsensivel === 0 && subLocal) {
-        console.log("⚠️ Tentando busca sem o sublocal...");
-        delete filtro["Cod.Sublocal"];
-        
-        const totalSemSublocal = await db.collection("Proxion").countDocuments(filtro);
-        console.log(`📊 Total encontrado sem sublocal: ${totalSemSublocal}`);
-      }
-    }
+        const response = await fetch(url);
 
-    // Executar agregação para agrupar por tipo de equipamento
-    try {
-      const resultado = await db.collection("Proxion").aggregate([
-        { $match: filtro },
-        { $group: {
-            _id: "$Categoria",
-            total: { $sum: 1 },
-            avaliados: {
-              $sum: {
-                $cond: [
-                  { $eq: ["$Status_Vistoria", "Vistoriado"] },
-                  1,
-                  0
-                ]
-              }
-            }
-          }
-        },
-        { $project: {
-            tipo: "$_id",
-            total: 1,
-            avaliados: 1,
-            _id: 0
-          }
-        },
-        { $sort: { tipo: 1 } }
-      ]).toArray();
-
-      console.log("✅ Resultado processado:", resultado);
-      
-      // Se não encontrou resultados, buscar informações de diagnóstico
-      if (resultado.length === 0) {
-        console.log("⚠️ Nenhum equipamento encontrado para agrupar");
-        
-        // Verificar a estrutura dos documentos na coleção
-        const amostraDocumentos = await db.collection("Proxion").find().limit(2).toArray();
-        let estruturaDoc = {};
-        
-        // Verificar a estrutura e caminhos importantes
-        if (amostraDocumentos.length > 0) {
-          const doc = amostraDocumentos[0];
-          estruturaDoc = {
-            campos: Object.keys(doc),
-            camposCod: doc.Cod ? Object.keys(doc.Cod) : []
-          };
-          
-          console.log("🔍 Estrutura do documento de exemplo:", estruturaDoc);
+        if (!response.ok) {
+          throw new Error(`Erro ${response.status}: ${response.statusText}`);
         }
-        
-        // Buscar valores distintos para diagnóstico
-        const clientes = await db.collection("Proxion").distinct("Cod.Cliente");
-        const unidades = await db.collection("Proxion").distinct("Cod.Unidade");
-        const sublocais = await db.collection("Proxion").distinct("Cod.Sublocal");
-        
-        console.log("👥 Clientes disponíveis:", clientes.slice(0, 10));
-        console.log("🏢 Unidades disponíveis:", unidades.slice(0, 10));
-        console.log("📍 Sublocais disponíveis:", sublocais.slice(0, 10));
-        
-        // Verificar combinações existentes
-        const combinacoes = await db.collection("Proxion").aggregate([
-          { $group: {
-              _id: { 
-                cliente: "$Cod.Cliente", 
-                unidade: "$Cod.Unidade", 
-                sublocal: "$Cod.Sublocal" 
-              },
-              count: { $sum: 1 }
-            }
-          },
-          { $match: { 
-              "_id.cliente": { $regex: cliente, $options: "i" },
-              "_id.unidade": { $regex: unidade, $options: "i" }
-            }
-          },
-          { $limit: 10 }
-        ]).toArray();
-        
-        // Verificar se há alguma combinação próxima com dados
-        console.log("🔍 Combinações similares encontradas:", combinacoes);
-        
-        // Retornar informações de diagnóstico
-        return Response.json({
-          resultado: [],
-          diagnostico: {
-            filtroAplicado: filtro,
-            parametrosRecebidos: { cliente, unidade, subLocal },
-            url: request.url,
-            clientesDisponiveis: clientes.slice(0, 20),
-            unidadesDisponiveis: unidades.slice(0, 20),
-            sublocaisDisponiveis: sublocais.slice(0, 20),
-            combinacoesSimilares: combinacoes,
-            estruturaDocumento: estruturaDoc
-          }
-        });
+
+        const data = await response.json();
+        console.log("Modelos recebidos:", data);
+
+        if (Array.isArray(data) && data.length > 0) {
+          setModelosEquipamento(data);
+        } else if (data.error) {
+          throw new Error(data.error);
+        } else {
+          setModelosEquipamento([]);
+          setError("Nenhum modelo encontrado para este tipo");
+          
+          // Usando dados estáticos como fallback
+          setModelosEquipamento([
+            "Modelo A",
+            "Modelo B",
+            "Modelo C",
+            "Modelo D",
+            "Modelo E",
+          ]);
+        }
+      } catch (err) {
+        console.error("Erro ao buscar modelos:", err);
+        setError(err.message);
+        // Usando dados estáticos como fallback
+        setModelosEquipamento([
+          "Modelo A",
+          "Modelo B",
+          "Modelo C",
+          "Modelo D",
+          "Modelo E",
+        ]);
+      } finally {
+        setLoading(false);
       }
-      
-      return Response.json(resultado);
-    } catch (dbError) {
-      console.error('⚠️ Erro na consulta ao banco de dados:', dbError);
-      return Response.json({ 
-        error: 'Erro ao processar a consulta', 
-        message: dbError.message 
-      }, { status: 500 });
+    };
+
+    fetchModelos();
+  }, [tipoSelecionado, empresaInfo]);
+
+  // Buscar números de série quando um modelo é selecionado
+  useEffect(() => {
+    if (!modeloSelecionado || !tipoSelecionado || !empresaInfo.cliente || !empresaInfo.unidade) {
+      setNumerosDeSerie([]);
+      return;
     }
-  } catch (error) {
-    console.error('❌ Erro ao processar requisição:', error);
-    console.error('Stack trace:', error.stack);
-    return Response.json({ error: error.message }, { status: 500 });
-  }
+
+    const fetchNumerosSerie = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const url = `/api/equipamentos/series?cliente=${encodeURIComponent(empresaInfo.cliente)}&unidade=${encodeURIComponent(empresaInfo.unidade)}${empresaInfo.subLocal ? `&subLocal=${encodeURIComponent(empresaInfo.subLocal)}` : ''}&tipo=${encodeURIComponent(tipoSelecionado)}&modelo=${encodeURIComponent(modeloSelecionado)}`;
+        console.log("Buscando séries URL:", url);
+
+        const response = await fetch(url);
+
+        if (!response.ok) {
+          throw new Error(`Erro ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log("Séries recebidas:", data);
+
+        if (Array.isArray(data) && data.length > 0) {
+          setNumerosDeSerie(data);
+        } else if (data.error) {
+          throw new Error(data.error);
+        } else {
+          setNumerosDeSerie([]);
+          setError("Nenhum número de série encontrado para este modelo");
+          
+          // Usando dados estáticos como fallback
+          setNumerosDeSerie(["SN001", "SN002", "SN003", "SN004", "SN005"]);
+        }
+      } catch (err) {
+        console.error("Erro ao buscar números de série:", err);
+        setError(err.message);
+        // Usando dados estáticos como fallback
+        setNumerosDeSerie(["SN001", "SN002", "SN003", "SN004", "SN005"]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNumerosSerie();
+  }, [tipoSelecionado, modeloSelecionado, empresaInfo]);
+
+  const handleTipoChange = (tipo) => {
+    console.log("Tipo selecionado:", tipo);
+    setTipoSelecionado(tipo);
+    setModeloSelecionado("");
+    setSerieSelecionada("");
+    setSerieManual("");
+  };
+
+  const handleModeloChange = (modelo) => {
+    console.log("Modelo selecionado:", modelo);
+    setModeloSelecionado(modelo);
+    setSerieSelecionada("");
+    setSerieManual("");
+  };
+
+  const handleSerieChange = (serie) => {
+    setSerieSelecionada(serie);
+    setSerieManual(""); // Limpar input manual quando selecionar da lista
+  };
+
+  const handleSerieManualChange = (e) => {
+    setSerieManual(e.target.value);
+    setSerieSelecionada(""); // Limpar seleção da lista quando digitar manualmente
+  };
+
+  const handleSubmit = async (e) => {
+    if (e) e.preventDefault();
+
+    const numeroSerie = serieManual || serieSelecionada;
+
+    if (!tipoSelecionado || !modeloSelecionado || !numeroSerie) {
+      setError("Por favor, preencha todos os campos");
+      return;
+    }
+
+    // Salvar seleções no localStorage incluindo informações da empresa
+    localStorage.setItem("equipamentoSelecionado", JSON.stringify({
+      tipo: tipoSelecionado,
+      modelo: modeloSelecionado,
+      numeroSerie,
+      // Incluir informações da empresa para contexto
+      cliente: empresaInfo.cliente,
+      unidade: empresaInfo.unidade,
+      subLocal: empresaInfo.subLocal
+    }));
+
+    // Aqui você pode navegar para a próxima página ou enviar os dados para o servidor
+    console.log("Dados selecionados:", {
+      tipo: tipoSelecionado,
+      modelo: modeloSelecionado,
+      numeroSerie,
+      ...empresaInfo
+    });
+
+    // O redirecionamento será feito pelo Link ao redor do botão
+  };
+
+  return (
+    <div className="relative w-screen h-screen flex justify-center flex-col items-center p-4 lg:py-8 gap-3">
+      {/* Informação da empresa selecionada */}
+      {empresaInfo.cliente && (
+        <div className="mb-4 text-white text-center">
+          <p className="font-medium">
+            {empresaInfo.cliente} - {empresaInfo.unidade}
+            {empresaInfo.subLocal && ` - ${empresaInfo.subLocal}`}
+          </p>
+        </div>
+      )}
+
+      <h2 className="text-2xl font-bold mb-3 text-[#ffffff]">
+        Selecionar Equipamento
+      </h2>
+
+      <form onSubmit={handleSubmit} className="flex flex-col w-[300px]">
+        <InputSelect
+          labelText="Tipo"
+          inputHeight="50px"
+          showIcon
+          textStyle="text-xl font-medium text-[#01AAAD]"
+          opcoes={tiposEquipamento}
+          value={tipoSelecionado}
+          onChange={handleTipoChange}
+          disabled={loading || !empresaInfo.cliente}
+        />
+        <InputSelect
+          labelText="Modelo"
+          inputHeight="50px"
+          showIcon
+          textStyle="text-xl font-medium text-[#01AAAD]"
+          opcoes={modelosEquipamento}
+          value={modeloSelecionado}
+          onChange={handleModeloChange}
+          disabled={!tipoSelecionado || loading}
+        />
+        <InputSelect
+          labelText="n° série"
+          inputHeight="50px"
+          showIcon
+          textStyle="text-xl font-medium text-[#01AAAD]"
+          opcoes={numerosDeSerie}
+          value={serieSelecionada}
+          onChange={handleSerieChange}
+          disabled={!modeloSelecionado || loading}
+        />
+        <InputText
+          inputHeight="50px"
+          InputPlaceholder="Digite o n° de serie"
+          textStyle="text-center text-xl font-medium text-[#01AAAD]"
+          inputMargin="18px 0 0 0"
+          value={serieManual}
+          onChange={handleSerieManualChange}
+          onEnter={(value) => {
+            setSerieManual(value); 
+            setSerieSelecionada(""); 
+          }}
+          disabled={loading}
+        />
+
+        {error && (
+          <div className="bg-red-100 text-red-600 p-2 rounded mt-2">
+            {error}
+          </div>
+        )}
+        
+        <Link 
+          href={{
+            pathname: "/vistoriaequipamento",
+            query: {
+              cliente: empresaInfo.cliente,
+              unidade: empresaInfo.unidade,
+              subLocal: empresaInfo.subLocal,
+              tipo: tipoSelecionado,
+              modelo: modeloSelecionado,
+              serie: serieManual || serieSelecionada
+            }
+          }}
+          onClick={(e) => {
+            if (!tipoSelecionado || !modeloSelecionado || (!serieSelecionada && !serieManual)) {
+              e.preventDefault();
+              setError("Por favor, preencha todos os campos");
+              return;
+            }
+            handleSubmit();
+          }}
+        >
+          <Button
+            textButton="Selecionar"
+            type="button"
+            disabled={
+              !tipoSelecionado ||
+              !modeloSelecionado ||
+              (!serieSelecionada && !serieManual) ||
+              loading
+            }
+          />
+        </Link>
+      </form>
+
+      {loading && <div className="mt-4 text-white">Carregando...</div>}
+
+      {/* Botão para voltar para a lista */}
+      <Link 
+        href={`/listaequipamentos?cliente=${empresaInfo.cliente}&unidade=${empresaInfo.unidade}${empresaInfo.subLocal ? `&subLocal=${empresaInfo.subLocal}` : ''}`}
+        className="mt-6 text-white underline"
+      >
+        Voltar para a lista
+      </Link>
+    </div>
+  );
 }
 
-// Função auxiliar para escapar caracteres especiais em expressões regulares
-function escapeRegExp(string) {
-  return string ? string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : '';
-}
-
-// Função auxiliar para encontrar caminhos de chaves em um objeto aninhado
-function findKeyPaths(obj, targetKey, currentPath = '', result = []) {
-  if (!obj || typeof obj !== 'object') return result;
-  
-  for (const key in obj) {
-    const newPath = currentPath ? `${currentPath}.${key}` : key;
-    
-    if (key === targetKey) {
-      result.push(newPath);
-    }
-    
-    if (obj[key] && typeof obj[key] === 'object') {
-      findKeyPaths(obj[key], targetKey, newPath, result);
-    }
-  }
-  
-  return result;
-}
-
-// Função para achatar um documento aninhado
-function flattenDocument(doc, prefix = '', result = {}) {
-  for (const key in doc) {
-    const value = doc[key];
-    const newKey = prefix ? `${prefix}.${key}` : key;
-    
-    if (value && typeof value === 'object' && !Array.isArray(value)) {
-      flattenDocument(value, newKey, result);
-    } else {
-      result[newKey] = value;
-    }
-  }
-  
-  return result;
-}
+export default SelectEquipment;
