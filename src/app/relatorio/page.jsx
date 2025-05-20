@@ -936,13 +936,13 @@ export default function Relatorio() {
                                 {tableRows1.map((row, index) => (
                                     <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
                                         <td className="py-1 px-2 border-b text-xs text-center">
-                                            <span className="relative -top-[4px]">{row.col1Tipo}</span></td>
+                                            <span className="relative -top-[5px]">{row.col1Tipo}</span></td>
                                         <td className="py-1 px-2 border-b text-xs text-center">
-                                            <span className="relative -top-[4px]">{row.col1Parametro}</span> </td>
+                                            <span className="relative -top-[5px]">{row.col1Parametro}</span> </td>
                                         <td className="py-1 px-2 border-b text-xs text-center">
-                                            <span className="relative -top-[4px]">{row.col2Tipo} </span> </td>
+                                            <span className="relative -top-[5px]">{row.col2Tipo} </span> </td>
                                         <td className="py-1 px-2 border-b text-xs text-center">
-                                            <span className="relative -top-[4px]">{row.col2Parametro} </span> </td>
+                                            <span className="relative -top-[5px]">{row.col2Parametro} </span> </td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -966,7 +966,7 @@ export default function Relatorio() {
                 </div>
 
                 {/* PÁGINA DE PARÂMETROS 2 */}
-                <div className="w-full h-full flex flex-col justify-between page no-break">
+                <div className="w-full h-full flex flex-col justify-between page ">
                     <div className="flex justify-between items-start mb-2">
                         <div>
                             <h1 className="font-bold text-lg text-gray-600">Manutenção Preventiva</h1>
@@ -1014,6 +1014,23 @@ export default function Relatorio() {
                         </table>
                     </div>
 
+                    <div>
+                        <div className="w-full h-6 bg-gray-700 flex items-center justify-center mb-2">
+                            <p className="text-white text-sm relative -top-2">
+                                Notas do Analista
+                            </p>
+                        </div>
+
+                        <div class="flex items-center h-40 justify-center px-4">
+                            <input
+                                type="text"
+                                class="h-28 w-full max-w-md px-4 border border-gray-300 rounded outline-none"
+                                
+                            />
+                        </div>
+
+                    </div>
+
                     <div className="w-full mt-2 pt-1 border-t border-gray-300" style={{ pageBreakInside: 'avoid' }}>
                         <div className="flex items-center text-xs text-gray-600 gap-2">
                             <img
@@ -1031,7 +1048,7 @@ export default function Relatorio() {
                 </div>
 
                 {/* PÁGINA FINAL */}
-                <div className="w-full h-full flex flex-col justify-between page no-break" >
+                <div className="w-full h-full flex flex-col justify-between page" >
                     <div className="flex justify-between items-start mb-2">
                         <div>
                             <h1 className="font-bold text-lg text-gray-600" >Manutenção Preventiva</h1>
